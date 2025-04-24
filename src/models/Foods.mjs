@@ -23,6 +23,10 @@ const FoodSchema = mongoose.Schema(
       type: mongoose.Schema.Types.String,
       required: true,
     },
+    rating: {
+      type: mongoose.Schema.Types.Number,
+      required: true,
+    },
     nutritionalValue: {
       calories: { type: mongoose.Schema.Types.Number, required: true },
       protein: { type: mongoose.Schema.Types.Number, required: true },
