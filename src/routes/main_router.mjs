@@ -3,6 +3,7 @@ import Food from '../models/Foods.mjs';
 import Category from '../models/Categories.mjs';
 import foodsRouter from './food.mjs';
 import aboutRouter from './about.mjs';
+import contactRouter from './contact.mjs';
 
 const router = Router();
 
@@ -22,5 +23,6 @@ router.get('/', async (req, res) => {
 
 router.use('/foods', foodsRouter);
 router.use('/about', aboutRouter);
+router.use('/contact', contactRouter);
 
 export default router;
