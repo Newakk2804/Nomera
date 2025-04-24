@@ -199,8 +199,8 @@ html {
 }
 
 .img-fluid {
-  max-width: 100%;
-  height: auto;
+  width: 250px;
+  height: 150px;
 }
 
 body {
@@ -357,6 +357,7 @@ address {
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .tm-gallery-description {
@@ -404,7 +405,7 @@ address {
 }
 
 .tm-gallery-item {
-  max-width: 280px;
+  max-width: 300px;
 }
 
 .tm-gallery-img {
@@ -900,4 +901,31 @@ address {
 .tm-site-logo,
 .tm-site-text-box {
   cursor: pointer;
+}
+
+.gallery-title-block {
+  width: 100%;
+  height: 70px;
+}
+
+.block-price-button {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px 0 10px;
+  height: 100px;
+}
+
+.btn-add-cart {
+  width: 120px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.btn-add-cart:hover {
+  background-color: #ffffff;
+  color: #2f956d;
 }
