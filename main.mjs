@@ -2,6 +2,7 @@ import express from 'express';
 import expressLayout from 'express-ejs-layouts';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import connectDB from './src/config/db.mjs';
 import mainRouter from './src/routes/main_router.mjs';
 
@@ -13,6 +14,7 @@ connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use((bodyParser.json()));
 app.use(cookieParser());
 
 app.use(express.static('public'));

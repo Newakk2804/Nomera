@@ -2,7 +2,7 @@
   <div class="tm-container-inner-2 tm-contact-section">
     <div class="row">
       <div class="col-md-6">
-        <form action="" method="POST" class="tm-contact-form">
+        <form action="/contact/send-message" method="POST" class="tm-contact-form" id="contactForm">
               <div class="form-group">
                 <input type="text" name="name" class="form-control" placeholder="Имя" required="" />
               </div>
@@ -21,6 +21,18 @@
                 </button>
               </div>
         </form>
+
+        <div id="thankYouModal" class="modal">
+          <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>Спасибо за ваше сообщение!</h2>
+            <p>Мы получили ваше сообщение и скоро с вами свяжемся.</p>
+          </div>
+        </div>
+        
+
+        <div id="modalBackground" class="modal-background"></div>
+        
       </div>
       <div class="col-md-6">
         <div class="tm-address-box">
