@@ -3,19 +3,17 @@ document.querySelectorAll('.tm-paging-link').forEach(link => {
     e.preventDefault();
     const categoryId = link.dataset.id;
 
-    // Удаляем класс active у всех кнопок
     document.querySelectorAll('.tm-paging-link').forEach(btn => {
-      btn.classList.remove('active'); // или 'actove', если у тебя так
+      btn.classList.remove('active');
     });
-    // Добавляем класс active к нажатой кнопке
-    link.classList.add('active'); // или 'actove'
+    link.classList.add('active');
 
     try {
       const res = await fetch(`/foods/by-category/${categoryId}`);
       const foods = await res.json();
 
       const gallery = document.querySelector('#tm-gallery-page-pizza');
-      gallery.innerHTML = ''; // очищаем галерею
+      gallery.innerHTML = '';
 
       foods.forEach(food => {
         const shortDesc = food.description.length > 40
