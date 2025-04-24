@@ -2,10 +2,13 @@ import express from 'express';
 import expressLayout from 'express-ejs-layouts';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import connectDB from './src/config/db.mjs';
 
 dotenv.config();
 
 const app = express();
+
+connectDB();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
