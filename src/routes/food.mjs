@@ -1,20 +1,15 @@
 import { Router } from 'express';
 import Food from '../models/Foods.mjs';
-import Category from '../models/Categories.mjs';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
-  const foods = await Food.find();
-  const categories = await Category.find();
-
-  const locals = {
-    title: 'Главная',
-    foods: foods,
-    categories: categories,
-  };
-
-  res.render('index', locals);
+router.get('/by-category/:id', async (req, res) => {
+  try {
+    const foods = await Food.find({ category: req.params.id });
+    res.json(foods);
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка загрузки блюд по категории' });
+  }
 });
 
 export default router;

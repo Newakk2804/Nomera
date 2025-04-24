@@ -3,7 +3,7 @@ import expressLayout from 'express-ejs-layouts';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import connectDB from './src/config/db.mjs';
-import FoodRouter from './src/routes/food.mjs';
+import mainRouter from './src/routes/main_router.mjs';
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ app.use(expressLayout);
 app.set('layout', './layouts/main');
 app.set('view engine', 'ejs');
 
-app.use(FoodRouter);
+app.use(mainRouter);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server on running port: ${process.env.PORT}`);
