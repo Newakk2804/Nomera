@@ -16,9 +16,9 @@
         </div>
         <nav class="col-md-6 col-12 tm-nav">
           <ul class="tm-nav-ul">
-            <li class="tm-nav-li"><a href="/" class="tm-nav-link active">Главная</a></li>
-            <li class="tm-nav-li"><a href="about.html" class="tm-nav-link">О нас</a></li>
-            <li class="tm-nav-li"><a href="contact.html" class="tm-nav-link">Контакты</a></li>
+            <li class="tm-nav-li"><a href="/" class="tm-nav-link <% if (activePage === 'food') { %> active <% } %>">Главная</a></li>
+            <li class="tm-nav-li"><a href="/about" class="tm-nav-link <% if (activePage === 'about') { %> active <% } %>">О нас</a></li>
+            <li class="tm-nav-li"><a href="contact.html" class="tm-nav-link <% if (activePage === 'contact') { %> active <% } %>">Контакты</a></li>
           </ul>
         </nav>
       </div>
