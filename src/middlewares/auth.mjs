@@ -1,4 +1,9 @@
-export function ensureAutheticated(req, res, next) {
+export function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) return next();
+
+  if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+    return res.status(401).json({ success: false, message: 'Требуется авторизация' });
+  }
+
   res.redirect('/');
 }

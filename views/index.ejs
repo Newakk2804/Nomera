@@ -22,6 +22,9 @@
 				<article class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
 					<figure>
 						<img src="<%= food.imageUrl %>" alt="Image" class="img-fluid tm-gallery-img" />
+						<button type="button" class="btn-favorite" data-id="<%= food._id %>">
+							<i class="fa-star <%= user && user.featuredFood.includes(food._id) ? 'fa-solid' : 'fa-regular' %>"></i>
+						</button>
 						<figcaption>
 							<div class="gallery-title-block">
 								<h4 class="tm-gallery-title">
