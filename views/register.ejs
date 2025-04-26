@@ -1,0 +1,47 @@
+<main>
+  <div class="row tm-welcome-section">
+    <h2 class="col-12 text-center tm-section-title">Регистрация</h2>
+  </div>
+  <div class="tm-container-inner-2 tm-login-section">
+    <div class="block-login">
+      <form action="/auth/register" method="POST" class="tm-contact-form login-form">
+        <div class="form-group empty-margin">
+          <input type="email" name="email" class="form-control" placeholder="Email" value="<%= old.email %>" />
+          <% if (errors.email) { %>
+            <div class="error"><%= errors.email.msg %></div>
+          <% } %>
+        </div>
+        <div class="form-group empty-margin">
+          <input type="password" name="password" class="form-control" placeholder="Пароль" />
+          <% if (errors.password) { %>
+            <div class="error"><%= errors.password.msg %></div>
+          <% } %>
+        </div>
+        <div class="form-group empty-margin">
+          <input type="password" name="secondPassword" class="form-control" placeholder="Повторите пароль" />
+          <% if (errors.secondPassword) { %>
+            <div class="error"><%= errors.secondPassword.msg %></div>
+          <% } %>
+        </div>
+        <div class="form-group empty-margin">
+          <input type="text" name="name" class="form-control" placeholder="Имя" value="<%= old.name %>" />
+          <% if (errors.name) { %>
+            <div class="error"><%= errors.name.msg %></div>
+          <% } %>
+        </div>
+        <div class="form-group empty-margin">
+          <input type="text" name="address" class="form-control" placeholder="Адрес" value="<%= old.address %>" />
+          <% if (errors.address) { %>
+            <div class="error"><%= errors.address.msg %></div>
+          <% } %>
+        </div>
+        <div class="form-group empty-margin group-flex">
+          <button type="submit" class="tm-btn tm-btn-success">
+            Зарегистрироваться
+          </button>
+          <p class="tm-mb-p">У вас есть учетной записи? <a href="/auth/login">Войдите</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

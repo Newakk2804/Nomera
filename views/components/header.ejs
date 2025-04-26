@@ -1,14 +1,20 @@
 <div class="placeholder">
-  <div class="parallax-window" data-parallax="scroll" data-image-src="img/simple-house-01.jpg">
+  <div class="parallax-window" data-parallax="scroll" data-image-src="/img/simple-house-01.jpg">
     <div class="block-authorization">
-      <a class="link-authorization color-blue" href="#">Вход</a>
-      <div class="vertical-strip"></div>
-      <a class="link-authorization" href="#">Регистрация</a>
+      <% if (user) { %>
+        <span class="link-authorization">Привет, <a href="/profile" class="color-blue"><%= user.name %></a>!</span> 
+        <div class="vertical-strip"></div>
+        <a class="link-authorization" href="/auth/logout">Выйти</a>
+      <% } else { %>
+        <a class="link-authorization color-blue" href="/auth/login">Вход</a>
+        <div class="vertical-strip"></div>
+        <a class="link-authorization" href="/auth/register">Регистрация</a>
+      <% } %>
     </div>
     <div class="tm-header">
       <div class="row tm-header-inner">
         <div class="col-md-6 col-12">
-          <img src="img/Nomera-no-text.png" alt="Logo" class="tm-site-logo" />
+          <img src="/img/Nomera-no-text.png" alt="Logo" class="tm-site-logo" />
           <div class="tm-site-text-box">
             <h1 class="tm-site-title">Nomera</h1>
             <h6 class="tm-site-description">Твоя порция удовольствия</h6>
