@@ -975,6 +975,11 @@ address {
   display: none;
 }
 
+#thankYouModal,
+#modalBackground {
+  display: none;
+}
+
 .block-login {
   display: flex;
   justify-content: center;
@@ -1011,6 +1016,7 @@ main {
 .tm-mb-p a {
   color: #09c;
   transition: all 0.1s ease;
+  text-decoration: none;
 }
 
 .tm-mb-p a:hover {
