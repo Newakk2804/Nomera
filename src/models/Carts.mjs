@@ -4,9 +4,16 @@ const CartSchema = mongoose.Schema(
   {
     items: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Food',
-        required: false,
+        food: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Food',
+          required: false,
+        },
+        quantity: {
+          type: mongoose.Schema.Types.Number,
+          required: true,
+          default: 1,
+        },
       },
     ],
     owner: {
@@ -17,6 +24,7 @@ const CartSchema = mongoose.Schema(
     totalPrice: {
       type: mongoose.Schema.Types.Number,
       required: true,
+      default: 0,
     },
   },
   { timestamps: true }
