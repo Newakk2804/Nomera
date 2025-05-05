@@ -1101,3 +1101,115 @@ main {
 .fa-solid.fa-star {
   color: gold;
 }
+
+.modal-detail, .modal-detail-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-detail-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+}
+
+.modal-detail {
+  z-index: 1001;
+}
+
+.modal-detail-content {
+  background: white;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close-modal-detail {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.img-detail {
+  width: 250px;
+  height: 150px;
+}
+
+.btn-add-cart-modal {
+  width: 120px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.btn-add-cart-modal:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.modal-detail-content {
+  position: relative;
+  background: #fff;
+  padding: 30px;
+  max-width: 800px;
+  margin: 50px auto;
+}
+
+.modal-body-flex {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.modal-image-container {
+  flex: 1;
+}
+
+.img-detail {
+  width: 100%;
+  height: auto;
+}
+
+.modal-info-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.nutrition-table {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 60px;
+  border-collapse: collapse;
+}
+
+.nutrition-table th,
+.nutrition-table td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  text-align: center;
+}
+
+.modal-btn-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+#modalTitle{
+  color: #1a6692;
+}

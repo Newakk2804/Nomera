@@ -1,3 +1,5 @@
+import { attachAddToCartHandlers } from './display_modal_detail.js';
+
 document.querySelectorAll('.tm-paging-link').forEach((link) => {
   link.addEventListener('click', async (e) => {
     e.preventDefault();
@@ -26,9 +28,7 @@ document.querySelectorAll('.tm-paging-link').forEach((link) => {
         article.innerHTML = `
           <figure>
             <img src="${food.imageUrl}" alt="${food.title}" class="img-fluid tm-gallery-img" />
-            <button type="button" class="btn-favorite" data-id="${
-              food._id
-            }">
+            <button type="button" class="btn-favorite" data-id="${food._id}">
             <i class="fa-star ${isFavorite ? 'fa-solid' : 'fa-regular'}"></i>
             </button>
             <figcaption>
@@ -38,7 +38,7 @@ document.querySelectorAll('.tm-paging-link').forEach((link) => {
               <p class="tm-gallery-description">${shortDesc}</p>
               <div class="block-price-button">
                 <p class="tm-gallery-price">${food.price} BYN</p>
-                <button type="button" class="btn-add-cart">Выбрать</button>
+                <button type="button" class="btn-add-cart" data-id="${food._id}">Выбрать</button>
               </div>
             </figcaption>
           </figure>
@@ -46,6 +46,7 @@ document.querySelectorAll('.tm-paging-link').forEach((link) => {
 
         gallery.appendChild(article);
       });
+      attachAddToCartHandlers();
     } catch (err) {
       console.error('Ошибка загрузки блюд:', err);
     }

@@ -1,0 +1,40 @@
+<div id="foodModal" class="modal-detail hidden">
+  <div class="modal-detail-content">
+    <span class="close-modal-detail">&times;</span>
+    <div class="modal-body-flex">
+      <div class="modal-image-container">
+        <img id="modalImage" src="" alt="Food Image" class="img-detail" />
+      </div>
+      <div class="modal-info-container">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+        <p><strong>Цена:</strong> <span id="modalPrice"></span> BYN</p>
+        <p><strong>Рейтинг:</strong> <span id="modalRating"></span>/5</p>
+        <table class="nutrition-table">
+          <thead>
+            <tr>
+              <th>Калории</th>
+              <th>Белки</th>
+              <th>Жиры</th>
+              <th>Углеводы</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="modalCalories"></td>
+              <td id="modalProtein"></td>
+              <td id="modalFat"></td>
+              <td id="modalCarbs"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="modal-btn-container">
+          <button id="addToCartBtn" class="btn-add-cart-modal">В корзину</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Затемнённый фон -->
+<div id="modalOverlay" class="modal-detail-overlay hidden"></div>
