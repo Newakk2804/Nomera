@@ -5,6 +5,33 @@ import { ensureAuthenticated } from '../middlewares/auth.mjs';
 
 const router = Router();
 
+router.get('/view', ensureAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const cart = await Cart.findOne({ owner: userId }).populate('items.food');
+
+    if (!cart || cart.items.length === 0) {
+      return res.json({ success: true, items: [] });
+    }
+
+    const formattedItems = cart.items.map((item) => ({
+      food: {
+        id: item.food._id,
+        title: item.food.title,
+        price: item.food.price,
+        imageUrl: item.food.imageUrl,
+      },
+      quantity: item.quantity,
+    }));
+
+    res.json({ success: true, items: formattedItems, totalPrice: cart.totalPrice });
+  } catch (err) {
+    console.error('Ошибка при получении содержимого корзины: ', err);
+    res.status(500).json({ success: false, message: 'Не удалось загрузить корзину' });
+  }
+});
+
 router.post('/add/:id', ensureAuthenticated, async (req, res) => {
   try {
     const foodId = req.params.id;
@@ -152,6 +179,35 @@ router.post('/increase/:id', ensureAuthenticated, async (req, res) => {
       success: false,
       message: 'Ошибка при увеличении количества товара в корзине',
     });
+  }
+});
+
+router.delete('/remove/:id', ensureAuthenticated, async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const foodId = req.params.id;
+
+    const cart = await Cart.findOne({ owner: userId }).populate('items.food');
+    if (!cart) {
+      return res.status(404).json({ success: false, message: 'Корзина не найдена' });
+    }
+
+    const index = cart.items.findIndex(item => item.food && item.food._id.toString() === foodId);
+    if (index === -1) {
+      return res.status(404).json({ success: false, message: 'Товар не найден в корзине' });
+    }
+
+    const removedItem = cart.items[index];
+
+    cart.totalPrice -= removedItem.food.price * removedItem.quantity;
+
+    cart.items.splice(index, 1);
+    await cart.save();
+
+    res.json({ success: true, message: 'Товар удален из корзины' });
+  } catch (err) {
+    console.error('Ошибка при удалении товара из корзины: ', err);
+    res.status(500).json({ success: false, message: 'Ошибка сервера' });
   }
 });
 
