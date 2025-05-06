@@ -67,8 +67,9 @@ router.get('/cards', ensureAuthenticated, (req, res) => {
   res.render('partials/cards', { layout: false });
 });
 
-router.get('/favorites', ensureAuthenticated, (req, res) => {
-  res.render('partials/favorites', { layout: false });
+router.get('/favorites', ensureAuthenticated, async (req, res) => {
+  const foods = await User.findById(req.user._id).populate('featuredFood');
+  res.render('partials/favorites', { layout: false, foods: foods.featuredFood });
 });
 
 export default router;

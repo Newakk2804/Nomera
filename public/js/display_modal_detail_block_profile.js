@@ -1,5 +1,5 @@
 function attachAddToCartHandlers() {
-  document.querySelector('.tm-gallery-page')?.addEventListener('click', (e) => {
+  document.querySelector('.profile-content')?.addEventListener('click', (e) => {
     const button = e.target.closest('.btn-add-cart');
     if (!button) return;
     const foodId = button.dataset.id;

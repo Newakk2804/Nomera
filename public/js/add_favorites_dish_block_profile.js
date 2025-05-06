@@ -24,7 +24,7 @@ window.addEventListener('click', (e) => {
   }
 });
 
-document.querySelector('.tm-gallery-page')?.addEventListener('click', async (e) => {
+document.querySelector('.profile-content')?.addEventListener('click', async (e) => {
   const btn = e.target.closest('.btn-favorite');
   if (!btn) return;
   const foodId = btn.dataset.id;
@@ -50,6 +50,11 @@ document.querySelector('.tm-gallery-page')?.addEventListener('click', async (e) 
         icon.classList.remove('fa-solid');
         icon.classList.add('fa-regular');
         openModal('Товар удален из избранного');
+
+        const card = btn.closest('.tm-gallery-item');
+        if (card && window.location.pathname.includes('/profile')) {
+          card.remove();
+        }
       }
     } else {
       openModal('Что-то пошло не так');
