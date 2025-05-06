@@ -1470,7 +1470,6 @@ main {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   padding: 16px;
-  border-radius: 10px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -1524,7 +1523,6 @@ main {
   padding: 15px;
   background-color: #f7f7f7;
   border: 1px solid #ddd;
-  border-radius: 8px;
   display: none;
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -1561,7 +1559,6 @@ main {
   background-color: #fff;
   padding: 10px 15px;
   margin-bottom: 10px;
-  border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease;
 }
@@ -1592,7 +1589,7 @@ main {
 
 .btn-detail-order {
   width: 200px;
-  height: 30px;
+  height: 40px;
   color: #ffffff;
   background-color: #2f956d;
   border: 1px solid #2f956d;
@@ -1603,4 +1600,85 @@ main {
 .btn-detail-order:hover {
   background-color: #ffffff;
   color: #2f956d;
+}
+
+
+
+
+
+
+
+
+.address-section {
+  max-width: 100%;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-family: sans-serif;
+}
+
+.address-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.address-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.address-input {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.address-add-btn {
+  width: 200px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.address-add-btn:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.address-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.address-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid #eee;
+}
+
+.address-delete-btn {
+  width: 100px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #f44336;
+  border: 1px solid #f44336;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.address-delete-btn:hover {
+  background-color: #ffffff;
+  color: #d32f2f;
 }

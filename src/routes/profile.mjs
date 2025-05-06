@@ -59,8 +59,39 @@ router.post('/info/edit', ensureAuthenticated, async (req, res) => {
   }
 });
 
-router.get('/addresses', ensureAuthenticated, (req, res) => {
-  res.render('partials/addresses', { layout: false });
+router.get('/addresses', ensureAuthenticated, async (req, res) => {
+  const user = await User.findById(req.user._id);
+  res.render('partials/addresses', { layout: false, user });
+});
+
+router.post('/addresses', ensureAuthenticated, async (req, res) => {
+  
+  const { address } = req.body;
+
+  if (!address || address.trim() === '') {
+    console.log(address);
+    return res.status(400).json({ success: false, message: 'Адрес не может быть пустым' });
+  }
+
+  const user = await User.findById(req.user._id);
+  user.addresses.push(address.trim());
+  await user.save();
+
+  res.json({ success: true });
+});
+
+router.delete('addresses/:index', ensureAuthenticated, async (req, res) => {
+  const index = parseInt(req.params.index);
+  const user = await User.findById(req.user._id);
+
+  if (isNaN(index) || index < 0 || index >= user.addresses.length) {
+    return res.status(400).json({ success: false, message: 'Некорректный индекс' });
+  }
+
+  user.addresses.splice(index, 1);
+  await user.save();
+
+  res.json({ success: true });
 });
 
 router.get('/cards', ensureAuthenticated, (req, res) => {

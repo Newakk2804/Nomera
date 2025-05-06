@@ -1,0 +1,17 @@
+<section class="address-section">
+  <h2 class="address-title">Мои адреса</h2>
+
+  <form id="addressForm" class="address-form">
+    <input type="text" id="newAddress" placeholder="Введите новый адрес" class="form-control" />
+    <button type="submit" class="address-add-btn">Добавить адрес</button>
+  </form>
+
+  <ul id="addressList" class="address-list">
+    <% user.addresses.forEach((address, index) => { %>
+      <li class="address-item">
+        <span><%= address %></span>
+        <button class="deleteAddressBtn address-delete-btn" data-index="<%= index %>">Удалить</button>
+      </li>
+    <% }) %>
+  </ul>
+</section>
