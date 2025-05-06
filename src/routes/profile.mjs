@@ -80,7 +80,7 @@ router.post('/addresses', ensureAuthenticated, async (req, res) => {
   res.json({ success: true });
 });
 
-router.delete('addresses/:index', ensureAuthenticated, async (req, res) => {
+router.delete('/addresses/:index', ensureAuthenticated, async (req, res) => {
   const index = parseInt(req.params.index);
   const user = await User.findById(req.user._id);
 
