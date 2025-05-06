@@ -1,0 +1,24 @@
+<h3 class="mb-4">Личные данные</h3>
+<form class="profile-form" id="editForm">
+  <div class="form-group mb-3">
+    <label for="firstName" class="form-label">Имя</label>
+    <input type="text" class="form-control" id="firstName" name="firstName" value="<%= user.firstName %>" required>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="lastName" class="form-label">Фамилия</label>
+    <input type="text" class="form-control" id="lastName" name="lastName" value="<%= user.lastName %>" required>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="phone" class="form-label">Телефон</label>
+    <input type="tel" class="form-control" id="phone" name="phone" placeholder="+375 (__) ___-__-__" value="<%= user.phone %>">
+  </div>
+
+  <div class="form-group mb-4">
+    <label class="form-label">Дата регистрации</label>
+    <p class="form-control-plaintext"><%= user.createdAt.toLocaleDateString() %></p>
+  </div>
+
+  <button type="submit" class="btn-save-info">Сохранить</button>
+</form>

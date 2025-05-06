@@ -5,14 +5,20 @@ export const registerValidation = [
   body('password')
     .isLength({ min: 6 })
     .withMessage('Пароль должен быть не короче 6 символов')
-    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)
+    .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/)
     .withMessage(
       'Пароль должен содержать хотя бы одну цифру, одну заглавную и одну строчную букву'
     ),
   body('secondPassword')
     .custom((value, { req }) => value === req.body.password)
     .withMessage('Пароли не совпадают'),
-  body('name').notEmpty().withMessage('Имя не может быть пустым'),
+  body('firstName').notEmpty().withMessage('Имя не может быть пустым'),
+  body('lastName').notEmpty().withMessage('Фамилия не может быть пустой'),
+  body('phone')
+    .notEmpty()
+    .withMessage('Номер телефона обязателен')
+    .matches(/^\+?\d{10,15}$/)
+    .withMessage('Введите корректный номер телефона'),
   body('address').notEmpty().withMessage('Адрес не может быть пустым'),
 ];
 

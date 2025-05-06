@@ -1,0 +1,16 @@
+<h3>Список заказов</h3>
+<% if (orders && orders.length > 0) { %>
+  <ul class="orders-list">
+    <% orders.forEach(order => { %>
+      <li class="order-item">
+        <strong>№ <%= order._id %></strong><br>
+        Статус: <%= order.status %><br>
+        Общая сумма: <%= order.total %> ₽<br>
+        Количество товаров: <%= order.totalItems %><br>
+        Дата: <%= order.createdAt.toLocaleDateString() %>
+      </li>
+    <% }) %>
+  </ul>
+<% } else { %>
+  <p>У вас пока нет заказов.</p>
+<% } %>

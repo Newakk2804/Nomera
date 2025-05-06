@@ -23,7 +23,7 @@ router.get('/register', (req, res) => {
     title: 'Регистрация',
     activePage: '',
     errors: {},
-    old: { name: '', email: '', address: '' },
+    old: { firstName: '', lastName: '', email: '', address: '', phone: '' },
   };
 
   res.render('register', locals);
@@ -31,14 +31,14 @@ router.get('/register', (req, res) => {
 
 router.post('/register', registerValidation, async (req, res) => {
   const errors = validationResult(req);
-  const { name, email, password, secondPassword, address } = req.body;
+  const { firstName, lastName, email, password, secondPassword, address, phone } = req.body;
 
   if (!errors.isEmpty()) {
     return res.status(400).render('register', {
       title: 'Регистрация',
       activePage: '',
       errors: errors.mapped(),
-      old: { name, email, address },
+      old: { firstName, lastName, email, address, phone },
     });
   }
 
@@ -48,23 +48,31 @@ router.post('/register', registerValidation, async (req, res) => {
       return res.render('register', {
         title: 'Регистрация',
         activePage: '',
-        errors: {email: {msg: 'Пользователь с таким email уже существует'}},
-        old: {name, email, address},
+        errors: { email: { msg: 'Пользователь с таким email уже существует' } },
+        old: { firstName, lastName, email, address, phone },
       });
     }
 
-    if(password !== secondPassword) {
+    if (password !== secondPassword) {
       return res.render('register', {
         title: 'Регистрация',
         activePage: '',
-        erros: {secondPassword: {msg: 'Пароли не совпадают'}},
-        old: {name, email, address},
-      })
+        erros: { secondPassword: { msg: 'Пароли не совпадают' } },
+        old: { firstName, lastName, email, address, phone },
+      });
     }
 
     const hash = await bcrypt.hash(password, 10);
 
-    await User.create({ name, email, password: hash, address, role: 'user' });
+    await User.create({
+      firstName,
+      lastName,
+      email,
+      password: hash,
+      addresses: [address],
+      phone,
+      role: 'user',
+    });
 
     res.redirect('/auth/login');
   } catch (err) {

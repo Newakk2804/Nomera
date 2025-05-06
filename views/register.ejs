@@ -24,9 +24,21 @@
           <% } %>
         </div>
         <div class="form-group empty-margin">
-          <input type="text" name="name" class="form-control" placeholder="Имя" value="<%= old.name %>" />
-          <% if (errors.name) { %>
-            <div class="error"><%= errors.name.msg %></div>
+          <input type="text" name="firstName" class="form-control" placeholder="Имя" value="<%= old.firstName %>" />
+          <% if (errors.firstName) { %>
+            <div class="error"><%= errors.firstName.msg %></div>
+          <% } %>
+        </div>
+        <div class="form-group empty-margin">
+          <input type="text" name="lastName" class="form-control" placeholder="Фамилия" value="<%= old.lastName %>" />
+          <% if (errors.lastName) { %>
+            <div class="error"><%= errors.lastName.msg %></div>
+          <% } %>
+        </div>
+        <div class="form-group empty-margin">
+          <input type="text" name="phone" class="form-control" placeholder="Номер телефона" value="<%= old.phone %>" />
+          <% if (errors.phone) { %>
+            <div class="error"><%= errors.phone.msg %></div>
           <% } %>
         </div>
         <div class="form-group empty-margin">

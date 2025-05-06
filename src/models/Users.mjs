@@ -2,7 +2,15 @@ import mongoose from 'mongoose';
 
 const UserSchema = mongoose.Schema(
   {
-    name: {
+    firstName: {
+      type: mongoose.Schema.Types.String,
+      required: true,
+    },
+    lastName: {
+      type: mongoose.Schema.Types.String,
+      required: true,
+    },
+    phone: {
       type: mongoose.Schema.Types.String,
       required: true,
     },
@@ -15,10 +23,12 @@ const UserSchema = mongoose.Schema(
       type: mongoose.Schema.Types.String,
       required: true,
     },
-    address: {
-      type: mongoose.Schema.Types.String,
-      required: true,
-    },
+    addresses: [
+      {
+        type: mongoose.Schema.Types.String,
+        required: true,
+      },
+    ],
     featuredFood: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -31,11 +41,13 @@ const UserSchema = mongoose.Schema(
       ref: 'Cart',
       required: false,
     },
-    orders: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Order',
-      required: false,
-    },
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+        required: false,
+      },
+    ],
     role: {
       type: mongoose.Schema.Types.String,
       enum: ['user', 'admin', 'courier'],
