@@ -1,16 +1,40 @@
-<h3>Список заказов</h3>
+<h3 class="orders-title">Список заказов</h3>
+
 <% if (orders && orders.length > 0) { %>
-  <ul class="orders-list">
+  <div class="orders-list">
     <% orders.forEach(order => { %>
-      <li class="order-item">
-        <strong>№ <%= order._id %></strong><br>
-        Статус: <%= order.status %><br>
-        Общая сумма: <%= order.total %> ₽<br>
-        Количество товаров: <%= order.totalItems %><br>
-        Дата: <%= order.createdAt.toLocaleDateString() %>
-      </li>
+      <div class="order-card">
+        <div class="order-id">Заказ № <%= order._id %></div>
+        <div class="order-info">
+          <span class="label">Статус:</span>
+          <span class="status <%= order.status.replace(/\s/g, '-').toLowerCase() %>"><%= order.status %></span>
+        </div>
+        <div class="order-info">
+          <span class="label">Сумма:</span>
+          <span><%= order.totalPrice %> BYN</span>
+        </div>
+        <div class="order-info">
+          <span class="label">Товаров:</span>
+          <span><%= order.arrayDishes.length %></span>
+        </div>
+        <div class="order-info">
+          <span class="label">Способ оплаты:</span>
+          <span><%= order.paymentMethod %></span>
+        </div>
+        <div class="order-info">
+          <span class="label">Дата:</span>
+          <span><%= new Date(order.createdAt).toLocaleDateString() %></span>
+        </div>
+        <div class="order-info">
+          <span class="label">Адрес доставки:</span>
+          <span><%= order.address %></span>
+        </div>
+        <button class="view-order btn-detail-order" data-order-id="<%= order._id %>">Просмотреть заказ</button>
+        <div class="order-details" id="order-<%= order._id %>" style="display:none;">
+        </div>
+      </div>
     <% }) %>
-  </ul>
+  </div>
 <% } else { %>
-  <p>У вас пока нет заказов.</p>
+  <p class="no-orders">У вас пока нет заказов.</p>
 <% } %>

@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import User from '../models/Users.mjs';
+import Order from '../models/Orders.mjs';
 import { ensureAuthenticated } from '../middlewares/auth.mjs';
 
 const router = Router();
@@ -14,8 +15,24 @@ router.get('/', (req, res) => {
   res.render('profile', locals);
 });
 
-router.get('/orders', ensureAuthenticated, (req, res) => {
-  res.render('partials/orders', { layout: false });
+router.get('/orders', ensureAuthenticated, async (req, res) => {
+  const orders = await Order.find({ owner: req.user._id }).sort({ createdAt: -1 });
+  res.render('partials/orders', { layout: false, orders });
+});
+
+router.get('/orders/:id', ensureAuthenticated, async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id).populate('arrayDishes.food');
+
+    if (!order) {
+      return res.status(404).json({ message: 'Заказ не найден' });
+    }
+
+    res.json(order);
+  } catch (err) {
+    console.error('Ошибка при получении заказа: ', err);
+    res.status(500).json({ message: 'Ошибка при получении данных заказа' });
+  }
 });
 
 router.get('/info', ensureAuthenticated, (req, res) => {

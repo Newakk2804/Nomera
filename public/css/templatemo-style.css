@@ -1453,3 +1453,154 @@ main {
   background-color: #ffffff;
   color: #2f956d;
 }
+
+.orders-title {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.order-id {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.order-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.95em;
+}
+
+.label {
+  font-weight: 500;
+  color: #666;
+}
+
+/* Стилизация по статусу */
+.status {
+  font-weight: bold;
+}
+
+.status.принят {
+  color: #0275d8;
+}
+.status.готовится {
+  color: #f0ad4e;
+}
+
+.status.в-пути {
+  color: #5bc0de;
+}
+.status.доставлен {
+  color: #5cb85c;
+}
+.status.отменен {
+  color: #d9534f;
+}
+
+.no-orders {
+  color: #777;
+  font-style: italic;
+}
+
+.order-details {
+  margin-top: 10px;
+  padding: 15px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  display: none;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.order-details ul {
+  padding-left: 20px;
+}
+
+.order-details li {
+  margin-bottom: 5px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.order-details ul {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.order-details li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.order-details li:hover {
+  background-color: #f9f9f9;
+}
+
+.order-details li .food-name {
+  font-weight: bold;
+}
+
+.order-details li .food-price,
+.order-details li .food-total {
+  font-size: 14px;
+  color: #555;
+}
+
+.order-details li .food-quantity {
+  color: #888;
+  font-size: 14px;
+}
+
+.order-details li .total-price {
+  font-weight: bold;
+  color: #333;
+}
+
+.btn-detail-order {
+  width: 200px;
+  height: 30px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.btn-detail-order:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}

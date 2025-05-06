@@ -4,9 +4,16 @@ const OrderSchema = mongoose.Schema(
   {
     arrayDishes: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Food',
-        required: true,
+        food: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Food',
+          required: false,
+        },
+        quantity: {
+          type: mongoose.Schema.Types.Number,
+          required: true,
+          default: 1,
+        },
       },
     ],
     owner: {
@@ -25,11 +32,16 @@ const OrderSchema = mongoose.Schema(
     },
     status: {
       type: mongoose.Schema.Types.String,
-      enum: ['Принят', 'Готовится', 'Передан курьеру', 'В пути', 'Доставлен', 'Отменен'],
+      enum: ['Принят', 'Готовится', 'В пути', 'Доставлен', 'Отменен'],
       required: true,
     },
     totalPrice: {
       type: mongoose.Schema.Types.Number,
+      required: true,
+    },
+    paymentMethod: {
+      type: mongoose.Schema.Types.String,
+      enum: ['Наличными курьеру', 'Картой курьеру', 'Оплата онлайн'],
       required: true,
     },
   },
