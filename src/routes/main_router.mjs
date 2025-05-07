@@ -9,6 +9,7 @@ import favoriteRouter from './favorite.mjs';
 import cartRouter from './cart.mjs';
 import profileRouter from './profile.mjs';
 import orderRouter from './order.mjs';
+import adminRouter from './admin.mjs';
 
 const router = Router();
 
@@ -34,5 +35,6 @@ router.use('/favorite', favoriteRouter);
 router.use('/cart', cartRouter);
 router.use('/profile', profileRouter);
 router.use('/order', orderRouter);
+router.use('/admin', adminRouter);
 
 export default router;

@@ -4,14 +4,39 @@
   <div class="orders-list">
     <% orders.forEach(order=> { %>
       <div
-        class="order-card <%= order.status === 'Доставлен' ? 'success-order' : (order.status === 'Отменен' ? 'canceled-order' : '') %>">
+      class="order-card <%= order.status === 'Доставлен' ? 'success-order' : (order.status === 'Отменен' ? 'canceled-order' : '') %>">
         <div class="order-id">Заказ № <%= order._id %>
         </div>
         <div class="order-info">
           <span class="label">Статус:</span>
-          <span class="status <%= order.status.replace(/\s/g, '-').toLowerCase() %>">
-            <%= order.status %>
+          <form class="status-form" data-order-id="<%= order._id %>">
+            <select class="status-select" name="status">
+              <% const statuses=['Принят', 'Готовится' , 'В пути' , 'Доставлен' , 'Отменен' ]; %>
+                <% statuses.forEach(s=> { %>
+                  <option value="<%= s %>" <%=order.status===s ? 'selected' : '' %>><%= s %>
+                  </option>
+                  <% }) %>
+            </select>
+            <button type="submit" class="save-status-btn">Сохранить</button>
+          </form>
+        </div>
+        <div class="order-info">
+          <span class="label">Клиент:</span>
+          <span>
+            <%= order.owner.firstName %>
+              <%= order.owner.lastName %> (<%= order.owner.email %>)
           </span>
+        </div>
+        <div class="order-info">
+          <span class="label">Курьер:</span>
+          <% if (order.courier) { %>
+            <span>
+              <%= order.courier.firstName %>
+                <%= order.courier.lastName %> (<%= order.courier.email %>)
+            </span>
+            <% } else { %>
+              <span>Не назначен</span>
+              <% } %>
         </div>
         <div class="order-info">
           <span class="label">Сумма:</span>
@@ -46,7 +71,9 @@
             <%= order.address %>
           </span>
         </div>
-        <button class="view-order btn-detail-order" data-order-id="<%= order._id %>">Просмотреть заказ</button>
+        <button class="view-order-admin btn-detail-order" data-order-id="<%= order._id %>">Просмотреть заказ</button>
+        <button class="assign-courier-admin assign-courier-btn" data-order-id="<%= order._id %>">Назначить
+          курьера</button>
         <div class="order-details" id="order-<%= order._id %>" style="display:none;">
         </div>
       </div>

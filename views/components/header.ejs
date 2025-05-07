@@ -2,16 +2,26 @@
   <div class="parallax-window" data-parallax="scroll" data-image-src="/img/simple-house-01.jpg">
     <div class="block-authorization">
       <% if (user) { %>
-        <span class="link-authorization">Привет,<a href="/profile" class="color-blue"><%= user.firstName %></a>!</span> 
-        <div class="vertical-strip"></div>
-        <a class="link-authorization" id="openCartBtn"><img src="/img/cart.svg" class="img-cart" alt=""></a>
-        <div class="vertical-strip"></div>
-        <a class="link-authorization" href="/auth/logout">Выйти</a>
-      <% } else { %>
-        <a class="link-authorization color-blue" href="/auth/login">Вход</a>
-        <div class="vertical-strip"></div>
-        <a class="link-authorization" href="/auth/register">Регистрация</a>
-      <% } %>
+        <% if (user.role==='admin' ) { %>
+          <span class="link-authorization">Привет,<a href="/admin" class="color-blue">
+              <%= user.firstName %>
+            </a>!</span>
+          <div class="vertical-strip"></div>
+          <a class="link-authorization" href="/auth/logout">Выйти</a>
+          <% } else { %>
+            <span class="link-authorization">Привет,<a href="/profile" class="color-blue">
+                <%= user.firstName %>
+              </a>!</span>
+            <div class="vertical-strip"></div>
+            <a class="link-authorization" id="openCartBtn"><img src="/img/cart.svg" class="img-cart" alt=""></a>
+            <div class="vertical-strip"></div>
+            <a class="link-authorization" href="/auth/logout">Выйти</a>
+            <% } %>
+              <% } else { %>
+                <a class="link-authorization color-blue" href="/auth/login">Вход</a>
+                <div class="vertical-strip"></div>
+                <a class="link-authorization" href="/auth/register">Регистрация</a>
+                <% } %>
     </div>
     <div class="tm-header">
       <div class="row tm-header-inner">
@@ -24,9 +34,12 @@
         </div>
         <nav class="col-md-6 col-12 tm-nav">
           <ul class="tm-nav-ul">
-            <li class="tm-nav-li"><a href="/" class="tm-nav-link <% if (activePage === 'food') { %> active <% } %>">Главная</a></li>
-            <li class="tm-nav-li"><a href="/about" class="tm-nav-link <% if (activePage === 'about') { %> active <% } %>">О нас</a></li>
-            <li class="tm-nav-li"><a href="/contact" class="tm-nav-link <% if (activePage === 'contact') { %> active <% } %>">Контакты</a></li>
+            <li class="tm-nav-li"><a href="/"
+                class="tm-nav-link <% if (activePage === 'food') { %> active <% } %>">Главная</a></li>
+            <li class="tm-nav-li"><a href="/about"
+                class="tm-nav-link <% if (activePage === 'about') { %> active <% } %>">О нас</a></li>
+            <li class="tm-nav-li"><a href="/contact"
+                class="tm-nav-link <% if (activePage === 'contact') { %> active <% } %>">Контакты</a></li>
           </ul>
         </nav>
       </div>
