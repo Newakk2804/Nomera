@@ -1,0 +1,73 @@
+<div class="order-container">
+  <h1 class="order-title">Оформление заказа</h1>
+
+  <% if (cart && cart.items.length > 0) { %>
+    <ul class="order-list">
+      <% cart.items.forEach(item => { %>
+        <li class="order-item">
+          <div class="item-title"><strong><%= item.food.title %></strong></div>
+          <div class="item-details">
+            <span>Количество: <%= item.quantity %></span>
+            <span>Цена: <%= item.food.price %> BYN</span>
+            <span>Сумма: <%= item.food.price * item.quantity %> BYN</span>
+          </div>
+        </li>
+      <% }) %>
+      <li class="order-summary">
+        <strong>Итого: <%= cart.totalPrice %> BYN</strong>
+      </li>
+    </ul>
+  <% } else { %>
+    <p class="order-empty">Ваша корзина пуста.</p>
+  <% } %>
+
+  <form id="orderForm" class="order-form" method="POST" action="/order">
+    <label for="address">Адрес доставки:</label>
+    <select name="address" id="address" required>
+      <% user.addresses.forEach(addr => { %>
+        <option value="<%= addr %>"><%= addr %></option>
+      <% }) %>
+    </select>
+
+    <label for="paymentMethod">Способ оплаты:</label>
+    <select name="paymentMethod" id="paymentMethod" required>
+      <option value="Наличными курьеру">Наличными курьеру</option>
+      <option value="Картой курьеру">Картой курьеру</option>
+      <% if (cards && cards.length > 0) { %>
+        <option value="Оплата онлайн">Оплата онлайн (привязанная карта)</option>
+      <% } %>
+    </select>
+
+    <div id="cardSelection" class="card-selection hidden">
+      <label for="selectedCard">Выберите карту:</label>
+      <select name="selectedCard" id="selectedCard">
+        <% cards.forEach(card => { %>
+          <option value="<%= card.id %>">
+            **** **** **** <%= card.last4 %> (срок: <%= card.exp_month %>/<%= card.exp_year %>)
+          </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <button type="submit" class="order-submit-btn">Оформить заказ</button>
+  </form>
+</div>
+
+<script>
+  const paymentSelect = document.getElementById('paymentMethod');
+  const cardBlock = document.getElementById('cardSelection');
+
+  paymentSelect.addEventListener('change', () => {
+    if (paymentSelect.value === 'Оплата онлайн') {
+      cardBlock.classList.remove('hidden');
+    } else {
+      cardBlock.classList.add('hidden');
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', () => {
+    if (paymentSelect.value === 'Оплата онлайн') {
+      cardBlock.classList.remove('hidden');
+    }
+  });
+</script>

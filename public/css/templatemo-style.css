@@ -1364,7 +1364,7 @@ main {
 }
 
 .cart-footer {
-  margin-top: 20px;
+  margin: 20px 0 20px 0;
   text-align: center;
 }
 
@@ -1375,6 +1375,7 @@ main {
   color: #ffffff;
   font-size: 16px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .checkout-btn:hover {
@@ -1768,4 +1769,106 @@ h3 {
 .card-item {
   display: flex;
   justify-content: space-between;
+}
+
+.order-container {
+  max-width: 100%посл;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.order-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.order-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+}
+
+.order-item {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.item-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.item-details span {
+  display: block;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.order-summary {
+  font-size: 1.1rem;
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.order-form label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+}
+
+.order-form select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.order-submit-btn {
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  width: 100%;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+
+.order-submit-btn:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.card-selection {
+  margin-top: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+
+.order-submit-btn {
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  width: 100%;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.order-submit-btn:hover {
+  background-color: #ffffff;
+  color: #2f956d;
 }

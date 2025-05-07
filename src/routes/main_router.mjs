@@ -8,6 +8,7 @@ import authRouter from './auth.mjs';
 import favoriteRouter from './favorite.mjs';
 import cartRouter from './cart.mjs';
 import profileRouter from './profile.mjs';
+import orderRouter from './order.mjs';
 
 const router = Router();
 
@@ -32,5 +33,6 @@ router.use('/auth', authRouter);
 router.use('/favorite', favoriteRouter);
 router.use('/cart', cartRouter);
 router.use('/profile', profileRouter);
+router.use('/order', orderRouter);
 
 export default router;

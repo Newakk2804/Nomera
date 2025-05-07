@@ -44,6 +44,10 @@ const OrderSchema = mongoose.Schema(
       enum: ['Наличными курьеру', 'Картой курьеру', 'Оплата онлайн'],
       required: true,
     },
+    isPaid: {
+      type: mongoose.Schema.Types.Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

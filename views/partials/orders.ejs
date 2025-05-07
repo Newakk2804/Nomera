@@ -19,7 +19,12 @@
         </div>
         <div class="order-info">
           <span class="label">Способ оплаты:</span>
-          <span><%= order.paymentMethod %></span>
+          <span>
+            <%= order.paymentMethod %>
+            <% if (order.paymentMethod === 'Оплата онлайн') { %>
+              (<%= order.isPaid ? 'успешно' : 'не выполнена' %>)
+            <% } %>
+          </span>
         </div>
         <div class="order-info">
           <span class="label">Дата:</span>
