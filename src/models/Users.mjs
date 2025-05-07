@@ -48,6 +48,10 @@ const UserSchema = mongoose.Schema(
         required: false,
       },
     ],
+    stripeCustomerId: {
+      type: mongoose.Schema.Types.String,
+      default: null,
+    },
     role: {
       type: mongoose.Schema.Types.String,
       enum: ['user', 'admin', 'courier'],

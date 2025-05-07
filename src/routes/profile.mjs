@@ -1,11 +1,17 @@
 import { Router } from 'express';
+import dotenv from 'dotenv';
 import User from '../models/Users.mjs';
 import Order from '../models/Orders.mjs';
 import { ensureAuthenticated } from '../middlewares/auth.mjs';
+import Stripe from 'stripe';
+
+dotenv.config();
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
   const locals = {
     title: 'Личный кабинет',
     activePage: '',
@@ -65,7 +71,6 @@ router.get('/addresses', ensureAuthenticated, async (req, res) => {
 });
 
 router.post('/addresses', ensureAuthenticated, async (req, res) => {
-  
   const { address } = req.body;
 
   if (!address || address.trim() === '') {
@@ -94,9 +99,70 @@ router.delete('/addresses/:index', ensureAuthenticated, async (req, res) => {
   res.json({ success: true });
 });
 
-router.get('/cards', ensureAuthenticated, (req, res) => {
-  res.render('partials/cards', { layout: false });
+router.get('/cards', ensureAuthenticated, async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user.stripeCustomerId) {
+    const customer = await stripe.customers.create({
+      email: user.email,
+      name: `${user.firstName} ${user.lastName}`,
+    });
+
+    user.stripeCustomerId = customer.id;
+    await user.save();
+  }
+
+  const cards = await stripe.paymentMethods.list({
+    customer: user.stripeCustomerId,
+    type: 'card',
+  });
+
+  res.render('partials/cards', {
+    layout: false,
+    cards: cards.data,
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+  });
 });
+
+router.post('/payments/create-setup-intent', ensureAuthenticated, async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user.stripeCustomerId) {
+    const customer = await stripe.customers.create({
+      email: user.email,
+      name: `${user.firstName} ${user.lastName}`,
+    });
+
+    user.stripeCustomerId = customer.id;
+    await user.save();
+  }
+
+  const setupIntent = await stripe.setupIntents.create({
+    customer: user.stripeCustomerId,
+  });
+
+  res.json({ clientSecret: setupIntent.client_secret });
+});
+
+router.delete('/payments/delete-card/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const paymentMethod = await stripe.paymentMethods.retrieve(id);
+
+    if (!paymentMethod) {
+      return res.status(404).json({ message: 'Платежный метод не найден в Stripe' });
+    }
+
+    await stripe.paymentMethods.detach(id);
+
+    res.json({ success: true, message: 'Карта удалена успешно' });
+  } catch (error) {
+    console.error('Ошибка при удалении карты:', error);
+    res.status(500).json({ message: 'Ошибка при удалении карты' });
+  }
+});
+
 
 router.get('/favorites', ensureAuthenticated, async (req, res) => {
   const foods = await User.findById(req.user._id).populate('featuredFood');

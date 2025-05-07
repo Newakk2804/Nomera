@@ -1,0 +1,35 @@
+<div id="stripe-key" data-key="<%= publishableKey %>" style="display: none;"></div>
+
+<section class="cards-section">
+  <h2 class="section-title">Платежные карты</h2>
+
+  <div id="cards-list">
+    <% if (cards.length===0) { %>
+      <p style="color: #666;">У вас ещё нет привязанных карт.</p>
+      <% } else { %>
+        <ul class="cards-ul">
+          <% cards.forEach(card=> { %>
+            <li class="card-item">
+              <div class="info-card">
+                <strong>
+                  <%= card.card.brand.toUpperCase() %>
+                </strong> **** <%= card.card.last4 %>, истекает <%= card.card.exp_month %>/<%= card.card.exp_year %>
+              </div>
+              <button class="btn-delete-card" data-card-id="<%= card.id %>">Удалить</button>
+            </li>
+            <% }) %>
+        </ul>
+        <% } %>
+  </div>
+
+  <hr />
+
+  <h3>Добавить новую карту</h3>
+
+  <div id="loading">Загрузка...</div>
+
+  <form id="card-form">
+    <div id="card-element"></div>
+    <button type="submit" class="btn-link-card">Привязать карту</button>
+  </form>
+</section>

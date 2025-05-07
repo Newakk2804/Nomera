@@ -16,6 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const html = await res.text();
         contentContainer.innerHTML = html;
 
+        if (section === 'cards') {
+          const publishableKey = document.querySelector('#stripe-key')?.dataset.key;
+          if (publishableKey && window.initStripeAddCard) {
+            window.initStripeAddCard(publishableKey);
+          }
+        }
+
         attachOrderButtons();
       } catch (err) {
         contentContainer.innerHTML = '<p>Ошибка загрузки содержимого</p>';
