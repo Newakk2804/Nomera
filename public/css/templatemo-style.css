@@ -1944,14 +1944,6 @@ h3 {
   color: #2f956d;
 }
 
-.success-order {
-  border-left: 5px solid #28a745;
-}
-
-.canceled-order {
-  border-left: 5px solid #962222;
-}
-
 .thank-you-container {
   max-width: 500px;
   margin: 120px auto;
@@ -2068,4 +2060,12 @@ h3 {
   font-size: 1.5em;
   margin-bottom: 20px;
   font-weight: bold;
+}
+
+.success-order {
+  border-left: 5px solid #28a745;
+}
+
+.canceled-order {
+  border-left: 5px solid #bd3232;
 }

@@ -58,7 +58,7 @@ router.post('/assign-courier', ensureAuthenticated, async (req, res) => {
   }
 });
 
-router.post('/unassign-courier', async (req, res) => {
+router.post('/unassign-courier', ensureAuthenticated, async (req, res) => {
   const { orderId } = req.body;
 
   try {
@@ -70,7 +70,7 @@ router.post('/unassign-courier', async (req, res) => {
   }
 });
 
-router.post('/update-order-status', async (req, res) => {
+router.post('/update-order-status', ensureAuthenticated, async (req, res) => {
   const { orderId, status } = req.body;
 
   if (!['Принят', 'Готовится', 'В пути', 'Доставлен', 'Отменен'].includes(status)) {
@@ -121,16 +121,42 @@ router.get('/list-courier', ensureAuthenticated, async (req, res) => {
   }
 });
 
-router.get('/courier-orders/:courierId', ensureAuthenticated, async (req, res) =>{
+router.get('/courier-orders/:courierId', ensureAuthenticated, async (req, res) => {
   try {
-    const {courierId} = req.params;
-    const orders = await Order.find({courier: courierId}).populate('owner').sort({createdAt: -1});
+    const { courierId } = req.params;
+    const orders = await Order.find({ courier: courierId })
+      .populate('owner')
+      .sort({ createdAt: -1 });
 
-    res.json({orders});
+    res.json({ orders });
   } catch (error) {
     console.error('Ошибка при получении заказов курьера: ', error);
-    res.status(500).json({message: 'Ошибка сервера'});
+    res.status(500).json({ message: 'Ошибка сервера' });
   }
-})
+});
+
+router.get('/admin-info', ensureAuthenticated, (req, res) => {
+  res.render('partials/info', { layout: false, user: req.user });
+});
+
+router.post('/admin-info/edit', ensureAuthenticated, async (req, res) => {
+  const { firstName, lastName, phone } = req.body;
+
+  try {
+    const user = await User.findById(req.user._id);
+    if (!user) return res.status(404).json({ message: 'Пользователь не найден' });
+
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.phone = phone;
+
+    await user.save();
+
+    res.json({ message: 'Данные успешно обновлены', success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Ошибка сервера', success: false });
+  }
+});
 
 export default router;

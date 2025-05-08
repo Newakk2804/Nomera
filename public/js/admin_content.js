@@ -214,7 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const ordersHtml = data.orders
               .map(
                 (order) => `
-      <div class="courier-order-item ${order.status === 'Доставлен' ? 'success-order' : 'pending-order'}">
+      <div class="courier-order-item ${
+        order.status === 'Доставлен'
+          ? 'success-order'
+          : order.status === 'Отменен'
+          ? 'canceled-order'
+          : ''
+      }">
         <p><strong>Заказ №${order._id}</strong></p>
         <p><span class="order-status">${order.status}</span></p>
         <p>Сумма: ${order.totalPrice} BYN</p>

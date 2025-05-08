@@ -10,6 +10,8 @@
             <div class="courier-name"><strong><%= courier.firstName %> <%= courier.lastName %></strong></div>
             <div><%= courier.email %></div>
             <div><%= courier.phone || '—' %></div>
+            <div>Завершено: <%= courier.completedOrders %></div>
+            <div>В работе: <%= courier.currentOrders %></div>
             <button class="view-courier-orders" data-courier-id="<%= courier.id %>">
               Заказы
             </button>
