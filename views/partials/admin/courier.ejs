@@ -1,0 +1,22 @@
+<h3 class="couriers-title">Список курьеров</h3>
+<div class="courier-list">
+  <% if (courierStats.length === 0) { %>
+    <p>Курьеры не найдены.</p>
+  <% } else { %>
+    <div class="courier-rows">
+      <% courierStats.forEach(courier => { %>
+        <div class="courier-card">
+          <div class="courier-main">
+            <div class="courier-name"><strong><%= courier.firstName %> <%= courier.lastName %></strong></div>
+            <div><%= courier.email %></div>
+            <div><%= courier.phone || '—' %></div>
+            <button class="view-courier-orders" data-courier-id="<%= courier.id %>">
+              Заказы
+            </button>
+          </div>
+          <div class="courier-orders-list" id="courier-orders-<%= courier.id %>" style="display: none;"></div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</div>

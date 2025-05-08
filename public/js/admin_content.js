@@ -191,5 +191,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    const courierOrderButtons = document.querySelectorAll('.view-courier-orders');
+    courierOrderButtons.forEach((button) => {
+      button.addEventListener('click', async () => {
+        const courierId = button.dataset.courierId;
+        const container = document.getElementById(`courier-orders-${courierId}`);
+
+        if (container.style.display === 'block') {
+          container.style.display = 'none';
+          container.innerHTML = '';
+          return;
+        }
+
+        try {
+          const res = await fetch(`/admin/courier-orders/${courierId}`);
+          const data = await res.json();
+
+          if (data.orders.length === 0) {
+            container.innerHTML = '<p>Нет заказов для этого курьера.</p>';
+          } else {
+            const ordersHtml = data.orders
+              .map(
+                (order) => `
+      <div class="courier-order-item ${order.status === 'Доставлен' ? 'success-order' : 'pending-order'}">
+        <p><strong>Заказ №${order._id}</strong></p>
+        <p><span class="order-status">${order.status}</span></p>
+        <p>Сумма: ${order.totalPrice} BYN</p>
+        <p>Клиент: ${order.owner.firstName} ${order.owner.lastName}</p>
+        <p>Адрес: ${order.address}</p>
+        <p>Дата: ${new Date(order.createdAt).toLocaleString()}</p>
+      </div>
+    `
+              )
+              .join('');
+            container.innerHTML = ordersHtml;
+          }
+          container.style.display = 'block';
+        } catch (error) {
+          console.error('Ошибка при загрузке заказов курьера: ', error);
+          container.innerHTML = '<p>Ошибка загрузки заказов.</p>';
+          container.style.display = 'block';
+        }
+      });
+    });
   }
 });

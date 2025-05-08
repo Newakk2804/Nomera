@@ -86,4 +86,51 @@ router.post('/update-order-status', async (req, res) => {
   }
 });
 
+router.get('/list-courier', ensureAuthenticated, async (req, res) => {
+  try {
+    const couriers = await User.find({ role: 'courier' });
+    const couriersIds = couriers.map((courier) => courier._id);
+    const orders = await Order.find({ courier: { $in: couriersIds } });
+
+    const courierStats = couriers.map((courier) => {
+      const courierOrders = orders.filter(
+        (order) => order.courier.toString() === courier._id.toString()
+      );
+
+      const completedOrders = courierOrders.filter((order) => order.status === 'Доставлен').length;
+
+      const currentOrders = courierOrders.filter((order) =>
+        ['Принят', 'Готовится', 'В пути'].includes(order.status)
+      ).length;
+
+      return {
+        id: courier._id,
+        firstName: courier.firstName,
+        lastName: courier.lastName,
+        email: courier.email,
+        phone: courier.phone,
+        completedOrders,
+        currentOrders,
+      };
+    });
+
+    res.render('partials/admin/courier', { layout: false, courierStats });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Ошибка сервера при получении курьеров' });
+  }
+});
+
+router.get('/courier-orders/:courierId', ensureAuthenticated, async (req, res) =>{
+  try {
+    const {courierId} = req.params;
+    const orders = await Order.find({courier: courierId}).populate('owner').sort({createdAt: -1});
+
+    res.json({orders});
+  } catch (error) {
+    console.error('Ошибка при получении заказов курьера: ', error);
+    res.status(500).json({message: 'Ошибка сервера'});
+  }
+})
+
 export default router;
