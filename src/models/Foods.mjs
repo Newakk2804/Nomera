@@ -23,7 +23,7 @@ const FoodSchema = mongoose.Schema(
       type: mongoose.Schema.Types.String,
       required: true,
     },
-    rating: {
+    weight: {
       type: mongoose.Schema.Types.Number,
       required: true,
     },

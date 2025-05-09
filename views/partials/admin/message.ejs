@@ -1,0 +1,18 @@
+<h1 class="messages-title">Сообщения пользователей</h1>
+
+  <% if (messages.length > 0) { %>
+    <ul class="messages-list">
+      <% messages.forEach(message => { %>
+        <li class="message-item">
+          <div class="message-header">
+            <span class="message-name"><%= message.name %></span>
+            <span class="message-email"><%= message.email %></span>
+            <span class="message-date"><%= message.createdAt.toLocaleString() %></span>
+          </div>
+          <p class="message-content"><%= message.content %></p>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p class="no-messages">Сообщений пока нет.</p>
+  <% } %>

@@ -37,7 +37,7 @@ router.get('/detail/:id', async (req, res) => {
       description: food.description,
       price: food.price,
       imageUrl: food.imageUrl,
-      rating: food.rating,
+      weight: food.weight,
       nutritionalValue: {
         calories: food.nutritionalValue.calories,
         protein: food.nutritionalValue.protein,

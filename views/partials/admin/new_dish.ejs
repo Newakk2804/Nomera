@@ -1,0 +1,64 @@
+<h2 class="form-title">Добавить новое блюдо</h2>
+    <form action="/admin/admin-dish/add" method="POST" enctype="multipart/form-data" class="food-form">
+      <div class="form-group">
+        <label for="title">Название блюда</label>
+        <input type="text" id="title" name="title" class="form-control" required />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Описание</label>
+        <textarea id="description" name="description" class="form-control" rows="3" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Категория</label>
+        <select id="category" name="category" class="form-control" required>
+          <% categories.forEach(category => { %>
+            <option value="<%= category._id %>"><%= category.title %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Цена (BYN)</label>
+        <input type="number" id="price" name="price" class="form-control" step="0.01" required />
+      </div>
+
+      <div class="form-group">
+        <label for="image">Изображение блюда</label>
+        <input type="file" id="image" name="image" class="form-control"  accept="image/*" required />
+      </div>
+
+      <div class="form-group">
+        <label for="weight">Вес блюда (в граммах)</label>
+        <input type="number" id="weight" name="weight" class="form-control"  step="1" required />
+      </div>
+
+      <fieldset class="nutrition-group">
+        <legend>Пищевая ценность (на 100 г):</legend>
+
+        <div class="form-group">
+          <label for="calories">Калории</label>
+          <input type="number" id="calories" class="form-control"  name="nutritionalValue.calories" required />
+        </div>
+
+        <div class="form-group">
+          <label for="protein">Белки (г)</label>
+          <input type="number" id="protein" class="form-control"  name="nutritionalValue.protein" step="0.1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="fat">Жиры (г)</label>
+          <input type="number" id="fat" class="form-control"  name="nutritionalValue.fat" step="0.1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="carbs">Углеводы (г)</label>
+          <input type="number" id="carbs" class="form-control"  name="nutritionalValue.carbs" step="0.1" required />
+        </div>
+      </fieldset>
+
+      <div class="form-buttons">
+        <button type="submit" class="btn-new-dish">Добавить блюдо</button>
+      </div>
+    </form>

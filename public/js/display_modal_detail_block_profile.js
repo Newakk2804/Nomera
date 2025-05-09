@@ -14,7 +14,7 @@ function attachAddToCartHandlers() {
         document.getElementById('modalDescription').textContent = data.description;
         document.getElementById('modalPrice').textContent = data.price;
         document.getElementById('modalImage').src = data.imageUrl;
-        document.getElementById('modalRating').textContent = data.rating;
+        document.getElementById('modalWeight').textContent = data.weight;
         document.getElementById('modalCalories').textContent = data.nutritionalValue.calories;
         document.getElementById('modalProtein').textContent = data.nutritionalValue.protein;
         document.getElementById('modalFat').textContent = data.nutritionalValue.fat;

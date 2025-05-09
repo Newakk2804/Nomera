@@ -1,0 +1,74 @@
+<div class="container-edit">
+  <h1 class="edit-title">Редактирование блюда</h1>
+
+  <form action="/admin/admin-dish/edit/<%= dish._id %>" method="POST" enctype="multipart/form-data" class="form-edit">
+    <div class="form-group">
+      <label for="image" class="form-label">Текущее изображение</label><br />
+      <img src="/<%= dish.imageUrl %>" alt="Dish Image" class="edit-preview-img" />
+    </div>
+
+    <div class="form-group">
+      <label for="image" class="form-label">Заменить изображение</label>
+      <input type="file" id="image" name="image" accept="image/*" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="title" class="form-label">Название</label>
+      <input type="text" id="title" name="title" value="<%= dish.title %>" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="form-label">Описание</label>
+      <textarea id="description" name="description" class="form-control textarea-control"><%= dish.description %></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="category" class="form-label">Категория</label>
+      <select id="category" name="category" required class="form-control select-control">
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat._id %>" <%= cat._id.toString() === dish.category.toString() ? 'selected' : '' %>>
+            <%= cat.title %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="price" class="form-label">Цена (BYN)</label>
+      <input type="number" id="price" name="price" step="0.01" value="<%= dish.price %>" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="weight" class="form-label">Вес (г)</label>
+      <input type="number" id="weight" name="weight" value="<%= dish.weight %>" class="form-control" />
+    </div>
+
+    <fieldset class="form-group nutritional-group">
+      <legend class="form-legend">Пищевая ценность на 100г</legend>
+
+      <div class="nutrition-input-group">
+        <label for="calories" class="form-label">Калории</label>
+        <input type="number" id="calories" name="nutritionalValue[calories]" value="<%= dish.nutritionalValue.calories %>" class="form-control" />
+      </div>
+
+      <div class="nutrition-input-group">
+        <label for="protein" class="form-label">Белки</label>
+        <input type="number" id="protein" name="nutritionalValue[protein]" value="<%= dish.nutritionalValue.protein %>" class="form-control" />
+      </div>
+
+      <div class="nutrition-input-group">
+        <label for="fat" class="form-label">Жиры</label>
+        <input type="number" id="fat" name="nutritionalValue[fat]" value="<%= dish.nutritionalValue.fat %>" class="form-control" />
+      </div>
+
+      <div class="nutrition-input-group">
+        <label for="carbs" class="form-label">Углеводы</label>
+        <input type="number" id="carbs" name="nutritionalValue[carbs]" value="<%= dish.nutritionalValue.carbs %>" class="form-control" />
+      </div>
+    </fieldset>
+
+    <div class="form-buttons">
+      <button type="submit" class="btn-edit-dish">Сохранить</button>
+      <button type="button" class="btn-edit-dish-cancel" onclick="history.back()">Отмена</button>
+    </div>
+  </form>
+</div>

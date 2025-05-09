@@ -1,7 +1,13 @@
 import { Router } from 'express';
 import User from '../models/Users.mjs';
 import Order from '../models/Orders.mjs';
+import Category from '../models/Categories.mjs';
+import Food from '../models/Foods.mjs';
+import Message from '../models/Messages.mjs';
 import { ensureAuthenticated } from '../middlewares/auth.mjs';
+import upload from '../middlewares/uploads.mjs';
+import fs from 'fs';
+import path from 'path';
 
 const router = Router();
 
@@ -158,5 +164,142 @@ router.post('/admin-info/edit', ensureAuthenticated, async (req, res) => {
     res.status(500).json({ message: 'Ошибка сервера', success: false });
   }
 });
+
+router.get('/admin-dish', ensureAuthenticated, async (req, res) => {
+  const categories = await Category.find();
+
+  res.render('partials/admin/new_dish', { layout: false, categories });
+});
+
+router.post('/admin-dish/add', upload.single('image'), ensureAuthenticated, async (req, res) => {
+  try {
+    const {
+      title,
+      description,
+      category,
+      price,
+      weight,
+      'nutritionalValue.calories': calories,
+      'nutritionalValue.protein': protein,
+      'nutritionalValue.fat': fat,
+      'nutritionalValue.carbs': carbs,
+    } = req.body;
+
+    const imageUrl = `uploads/${req.file.filename}`;
+    const newFood = new Food({
+      title,
+      description,
+      category,
+      price,
+      imageUrl,
+      weight,
+      nutritionalValue: {
+        calories,
+        protein,
+        fat,
+        carbs,
+      },
+    });
+
+    await newFood.save();
+    res.redirect('/admin');
+  } catch (err) {
+    console.error('Ошибка при добавлении блюда:', err);
+    res.status(500).send('Ошибка сервера');
+  }
+});
+
+router.delete('/admin-dish/delete/:id', ensureAuthenticated, async (req, res) => {
+  try {
+    const dish = await Food.findById(req.params.id);
+    if (!dish) return res.status(404).json({ error: 'Блюдо не найдено' });
+
+    if (dish.imageUrl) {
+      const imagePath = path.join(process.cwd(), 'public', dish.imageUrl);
+      fs.unlink(imagePath, (err) => {
+        if (err) console.error('Ошибка при удалении изображения: ', err);
+      });
+    }
+
+    await Food.findByIdAndDelete(req.params.id);
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+router.get('/admin-message', ensureAuthenticated, async (req, res) => {
+  try {
+    const messages = await Message.find().sort({ createAt: -1 });
+    res.render('partials/admin/message', { layout: false, messages });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Ошибка сервера');
+  }
+});
+
+router.get('/admin-dish/edit/:id', ensureAuthenticated, async (req, res) => {
+  try {
+    const dish = await Food.findById(req.params.id);
+    const categories = await Category.find();
+    if (!dish) return res.status(404).send('Блюдо не найдено');
+    res.render('edit_dish', {
+      dish,
+      user: req.user,
+      title: 'Редактирование блюда',
+      activePage: '',
+      categories,
+    });
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+router.post(
+  '/admin-dish/edit/:id',
+  upload.single('image'),
+  ensureAuthenticated,
+  async (req, res) => {
+    try {
+      const dish = await Food.findById(req.params.id);
+
+      if (!dish) {
+        return res.status(404).send('Блюдо не найдено');
+      }
+
+      const { title, description, category, price, weight, nutritionalValue } = req.body;
+
+      dish.title = title;
+      dish.description = description;
+      dish.category = category;
+      dish.price = price;
+      dish.weight = weight;
+      dish.nutritionalValue = {
+        calories: nutritionalValue.calories,
+        protein: nutritionalValue.protein,
+        fat: nutritionalValue.fat,
+        carbs: nutritionalValue.carbs,
+      };
+
+      if (req.file) {
+        const oldImagePath = path.join('public', dish.imageUrl);
+        if (fs.existsSync(oldImagePath)) {
+          fs.unlinkSync(oldImagePath);
+        }
+        dish.imageUrl = 'uploads/' + req.file.filename;
+      }
+
+      await dish.save();
+
+      res.redirect('/');
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Ошибка при обновлении блюда');
+    }
+  }
+);
 
 export default router;

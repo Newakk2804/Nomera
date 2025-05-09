@@ -711,10 +711,10 @@ address {
   opacity: 1;
 }
 
-.tm-info-title {
-  font-size: 1.6rem;
-  font-weight: 300;
-  margin-bottom: 30px;
+.info-title {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 
 address {
@@ -943,7 +943,6 @@ address {
 .modal-content {
   background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
   text-align: center;
   width: 80%;
   max-width: 500px;
@@ -1049,7 +1048,6 @@ main {
 .modal-content {
   background: white;
   padding: 30px;
-  border-radius: 10px;
   text-align: center;
   position: relative;
 }
@@ -1142,7 +1140,7 @@ main {
 }
 
 .btn-add-cart-modal {
-  width: 120px;
+  width: 140px;
   height: 40px;
   color: #ffffff;
   background-color: #2f956d;
@@ -1239,7 +1237,6 @@ main {
   background-color: #4caf50;
   color: white;
   padding: 12px 20px;
-  border-radius: 8px;
   font-size: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 9999;
@@ -1788,7 +1785,6 @@ h3 {
   border: 1px solid #ddd;
   padding: 1rem;
   margin-bottom: 1rem;
-  border-radius: 8px;
   background: #fafafa;
 }
 
@@ -2068,4 +2064,274 @@ h3 {
 
 .canceled-order {
   border-left: 5px solid #bd3232;
+}
+
+.form-title {
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.food-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: #444;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.nutrition-group {
+  margin: 2rem 0;
+  padding: 1rem;
+  border: 1px solid #ddd;
+}
+
+.nutrition-group legend {
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-new-dish {
+  width: 160px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.btn-new-dish:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.btn-delete-dish {
+  width: 120px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-dish:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.btn-delete-dish-cancel {
+  width: 120px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #bd3232;
+  border: 1px solid #bd3232;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-dish-cancel:hover {
+  background-color: #ffffff;
+  color: #bd3232;
+}
+
+.modal-delete-dish.hidden {
+  display: none;
+}
+
+.modal-delete-dish {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content-delete-dish {
+  background: white;
+  padding: 1.5rem;
+  text-align: center;
+  min-width: 300px;
+}
+
+.modal-buttons-delete-dish{
+  margin-top: 10px;
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+}
+
+
+
+
+
+
+
+
+
+.messages-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.messages-title {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.messages-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.message-item {
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.message-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.message-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.message-email {
+  font-style: italic;
+  color: #555;
+}
+
+.message-date {
+  color: #999;
+}
+
+.message-content {
+  font-size: 1rem;
+  color: #444;
+  margin: 0;
+}
+
+.no-messages {
+  text-align: center;
+  color: #777;
+  font-size: 1.2rem;
+  margin-top: 40px;
+}
+
+
+
+.container-edit {
+  max-width: 80%;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fff;
+}
+
+.edit-title {
+  font-size: 28px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.textarea-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.select-control {
+  appearance: none;
+}
+
+.nutritional-group {
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.nutrition-input-group {
+  margin-bottom: 12px;
+}
+
+.edit-preview-img {
+  max-width: 35%;
+  height: auto;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+
+.btn-edit-dish {
+  width: 120px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.btn-edit-dish:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.btn-edit-dish-cancel {
+  width: 120px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #bd3232;
+  border: 1px solid #bd3232;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.btn-edit-dish-cancel:hover {
+  background-color: #ffffff;
+  color: #bd3232;
 }

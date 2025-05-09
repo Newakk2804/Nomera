@@ -9,7 +9,7 @@
         <h2 id="modalTitle"></h2>
         <p id="modalDescription"></p>
         <p><strong>Цена:</strong> <span id="modalPrice"></span> BYN</p>
-        <p><strong>Рейтинг:</strong> <span id="modalRating"></span>/5</p>
+        <p><strong>Вес блюда:</strong> <span id="modalWeight"></span>г.</p>
         <table class="nutrition-table">
           <thead>
             <tr>
@@ -29,17 +29,23 @@
           </tbody>
         </table>
         <div class="modal-btn-container">
-          <button id="addToCartBtn" class="btn-add-cart-modal">В корзину</button>
-          <div id="quantityControls" class="quantity-controls hidden">
-            <button id="decreaseQty" class="btn-quantity">➖</button>
-            <span id="quantityDisplay">0</span>
-            <button id="increaseQty" class="btn-quantity">➕</button>
-          </div>
+          <% if (user && user.role==='admin' ) { %>
+            <button id="deleteDishBtn" class="btn-add-cart-modal">Удалить</button>
+            <button id="editDishBtn" class="btn-add-cart-modal">Редактировать</button>
+            <% } else if (user && user.role==='user' ) { %>
+              <button id="addToCartBtn" class="btn-add-cart-modal">В корзину</button>
+              <% } else { %>
+                <button id="addToCartBtn" class="btn-add-cart-modal">В корзину</button>
+                <% } %>
+                <div id="quantityControls" class="quantity-controls hidden">
+                  <button id="decreaseQty" class="btn-quantity">➖</button>
+                  <span id="quantityDisplay">0</span>
+                  <button id="increaseQty" class="btn-quantity">➕</button>
+                </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <!-- Затемнённый фон -->
 <div id="modalOverlay" class="modal-detail-overlay hidden"></div>
