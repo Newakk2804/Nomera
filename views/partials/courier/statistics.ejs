@@ -1,0 +1,25 @@
+<div class="courier-stats">
+  <h3 class="courier-title">Статистика заказов</h3>
+  <ul class="courier-stats-list">
+    <li class="stats-item">
+      <span class="label">Всего заказов:</span>
+      <span class="value"><%= stats.total %></span>
+    </li>
+    <li class="stats-item">
+      <span class="label">Текущие заказы:</span>
+      <span class="value"><%= stats.current %></span>
+    </li>
+    <li class="stats-item">
+      <span class="label">Выполненные заказы:</span>
+      <span class="value"><%= stats.completed %></span>
+    </li>
+    <li class="stats-item">
+      <span class="label">Отменённые заказы:</span>
+      <span class="value"><%= stats.canceled %></span>
+    </li>
+    <li class="stats-item">
+      <span class="label">Заработано:</span>
+      <span class="value"><%= stats.totalEarnings.toFixed(2) %> BYN</span>
+    </li>
+  </ul>
+</div>

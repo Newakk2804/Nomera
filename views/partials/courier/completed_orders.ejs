@@ -1,0 +1,40 @@
+<h3 class="courier-title">Выполненные заказы</h3>
+
+<% if (orders.length===0) { %>
+  <p class="courier-empty">Нет текущих заказов.</p>
+  <% } else { %>
+    <ul class="order-list">
+      <% orders.forEach(order=> { %>
+        <li class="order-item">
+          <div class="order-field"><span class="label">Номер заказа:</span>
+            <%= order._id %>
+          </div>
+          <div class="order-field"><span class="label">Статус:</span>
+            <%= order.status %>
+          </div>
+          <div class="order-field"><span class="label">Клиент:</span>
+            <%= order.owner.firstName %>
+              <%= order.owner.lastName %> (<%= order.owner.email %>)
+          </div>
+          <div class="order-field"><span class="label">Номер клиента:</span>
+            <%= order.owner.phone %>
+          </div>
+          <div class="order-field"><span class="label">Адрес доставки:</span>
+            <%= order.address %>
+          </div>
+          <div class="order-field"><span class="label">Сумма:</span>
+            <%= order.totalPrice.toFixed(2) %> BYN
+          </div>
+          <div class="order-field"><span class="label">Время заказа:</span>
+            <%= new Date(order.createdAt).toLocaleString() %>
+          </div>
+
+          <button class="view-order-courier-btn" data-order-id="<%= order._id %>">
+            Просмотр содержимого
+          </button>
+
+          <div id="order-courier-<%= order._id %>" class="order-dishes" style="display: none;"></div>
+        </li>
+        <% }) %>
+    </ul>
+    <% } %>

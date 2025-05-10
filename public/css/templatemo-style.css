@@ -1430,11 +1430,31 @@ main {
   color: white;
 }
 
+.tm-paging-link-courier {
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #2f956d;
+  background-color: transparent;
+}
+
+.tm-paging-link-courier.active,
+.tm-paging-link-courier:hover {
+  background-color: #2f956d;
+  color: white;
+}
+
 .profile-content {
   padding: 0 50px 0 50px;
 }
 
 .admin-content {
+  padding: 0 50px 0 50px;
+}
+
+.courier-content {
   padding: 0 50px 0 50px;
 }
 
@@ -2486,4 +2506,130 @@ textarea {
 .button-change-password-cancel:hover {
   background-color: #ffffff;
   color: #bd3232;
+}
+
+.order-dishes ul {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+}
+
+.order-dishes li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+  gap: 10px;
+}
+
+.order-dishes li > span {
+  flex: 1;
+  text-align: center;
+}
+
+.order-dishes li .food-name {
+  font-weight: bold;
+  text-align: left;
+}
+
+.order-dishes li .food-price,
+.order-dishes li .food-total {
+  font-size: 14px;
+  color: #555;
+}
+
+.order-dishes li .food-quantity {
+  color: #888;
+  font-size: 14px;
+}
+
+.courier-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.courier-empty {
+  text-align: center;
+  color: #777;
+}
+
+.order-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.order-item {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+}
+
+.order-field {
+  margin-bottom: 8px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.order-dishes {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.view-order-courier-btn {
+  width: 220px;
+  height: 40px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.view-order-courier-btn:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.stats-title {
+  text-align: center;
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.courier-stats-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stats-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  font-size: 1.1em;
+}
+
+.stats-item:last-child {
+  border-bottom: none;
+}
+
+.label {
+  font-weight: 500;
+  color: #555;
+}
+
+.value {
+  font-weight: bold;
+  color: #000;
 }

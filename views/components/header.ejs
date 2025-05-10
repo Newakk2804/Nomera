@@ -8,7 +8,13 @@
             </a>!</span>
           <div class="vertical-strip"></div>
           <a class="link-authorization" href="/auth/logout">Выйти</a>
-          <% } else { %>
+          <% } else if(user.role==='courier') { %>
+            <span class="link-authorization">Привет,<a href="/courier" class="color-blue">
+              <%= user.firstName %>
+            </a>!</span>
+          <div class="vertical-strip"></div>
+          <a class="link-authorization" href="/auth/logout">Выйти</a>
+          <%} else { %>
             <span class="link-authorization">Привет,<a href="/profile" class="color-blue">
                 <%= user.firstName %>
               </a>!</span>

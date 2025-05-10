@@ -142,7 +142,7 @@ router.get('/courier-orders/:courierId', ensureAuthenticated, async (req, res) =
 });
 
 router.get('/admin-info', ensureAuthenticated, (req, res) => {
-  res.render('partials/info', { layout: false, user: req.user });
+  res.render('partials/user/info', { layout: false, user: req.user });
 });
 
 router.post('/admin-info/edit', ensureAuthenticated, async (req, res) => {

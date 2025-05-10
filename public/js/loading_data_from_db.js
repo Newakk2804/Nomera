@@ -12,7 +12,7 @@ document.querySelectorAll('.tm-paging-link').forEach((link) => {
 
     try {
       const res = await fetch(`/foods/by-category/${categoryId}`);
-      const { foods, featuredFood } = await res.json();
+      const { foods, featuredFood, user } = await res.json();
 
       const gallery = document.querySelector('#tm-gallery-page-pizza');
       gallery.innerHTML = '';
@@ -25,12 +25,17 @@ document.querySelectorAll('.tm-paging-link').forEach((link) => {
 
         const article = document.createElement('article');
         article.className = 'col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item';
+        const showFavorite = user && user.role === 'user';
+        const favoriteButtonHTML = showFavorite
+          ? `<button type="button" class="btn-favorite" data-id="${food._id}">
+            <i class="fa-star ${isFavorite ? 'fa-solid' : 'fa-regular'}"></i>
+            </button>`
+          : '';
+
         article.innerHTML = `
           <figure>
             <img src="${food.imageUrl}" alt="${food.title}" class="img-fluid tm-gallery-img" />
-            <button type="button" class="btn-favorite" data-id="${food._id}">
-            <i class="fa-star ${isFavorite ? 'fa-solid' : 'fa-regular'}"></i>
-            </button>
+            ${favoriteButtonHTML}
             <figcaption>
               <div class="gallery-title-block">
                 <h4 class="tm-gallery-title">${food.title}</h4>

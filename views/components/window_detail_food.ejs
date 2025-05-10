@@ -34,14 +34,15 @@
             <button id="editDishBtn" class="btn-add-cart-modal">Редактировать</button>
             <% } else if (user && user.role==='user' ) { %>
               <button id="addToCartBtn" class="btn-add-cart-modal">В корзину</button>
-              <% } else { %>
-                <button id="addToCartBtn" class="btn-add-cart-modal">В корзину</button>
-                <% } %>
-                <div id="quantityControls" class="quantity-controls hidden">
-                  <button id="decreaseQty" class="btn-quantity">➖</button>
-                  <span id="quantityDisplay">0</span>
-                  <button id="increaseQty" class="btn-quantity">➕</button>
-                </div>
+              <% } else if (user && user.role==='courier' ) { %>
+                <% } else {%>
+                  <button id="addToCartBtn" class="btn-add-cart-modal">В корзину</button>
+                  <% } %>
+                    <div id="quantityControls" class="quantity-controls hidden">
+                      <button id="decreaseQty" class="btn-quantity">➖</button>
+                      <span id="quantityDisplay">0</span>
+                      <button id="increaseQty" class="btn-quantity">➕</button>
+                    </div>
         </div>
       </div>
     </div>

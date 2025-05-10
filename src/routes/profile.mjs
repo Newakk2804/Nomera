@@ -23,7 +23,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
 
 router.get('/orders', ensureAuthenticated, async (req, res) => {
   const orders = await Order.find({ owner: req.user._id }).sort({ createdAt: -1 });
-  res.render('partials/orders', { layout: false, orders });
+  res.render('partials/user/orders', { layout: false, orders });
 });
 
 router.get('/orders/:id', ensureAuthenticated, async (req, res) => {
@@ -42,7 +42,7 @@ router.get('/orders/:id', ensureAuthenticated, async (req, res) => {
 });
 
 router.get('/info', ensureAuthenticated, (req, res) => {
-  res.render('partials/info', { layout: false, user: req.user });
+  res.render('partials/user/info', { layout: false, user: req.user });
 });
 
 router.post('/info/edit', ensureAuthenticated, async (req, res) => {
@@ -67,7 +67,7 @@ router.post('/info/edit', ensureAuthenticated, async (req, res) => {
 
 router.get('/addresses', ensureAuthenticated, async (req, res) => {
   const user = await User.findById(req.user._id);
-  res.render('partials/addresses', { layout: false, user });
+  res.render('partials/user/addresses', { layout: false, user });
 });
 
 router.post('/addresses', ensureAuthenticated, async (req, res) => {
@@ -117,7 +117,7 @@ router.get('/cards', ensureAuthenticated, async (req, res) => {
     type: 'card',
   });
 
-  res.render('partials/cards', {
+  res.render('partials/user/cards', {
     layout: false,
     cards: cards.data,
     publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
@@ -166,7 +166,7 @@ router.delete('/payments/delete-card/:id', async (req, res) => {
 
 router.get('/favorites', ensureAuthenticated, async (req, res) => {
   const foods = await User.findById(req.user._id).populate('featuredFood');
-  res.render('partials/favorites', { layout: false, foods: foods.featuredFood });
+  res.render('partials/user/favorites', { layout: false, foods: foods.featuredFood });
 });
 
 export default router;

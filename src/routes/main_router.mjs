@@ -10,6 +10,7 @@ import cartRouter from './cart.mjs';
 import profileRouter from './profile.mjs';
 import orderRouter from './order.mjs';
 import adminRouter from './admin.mjs';
+import courierRouter from './courier.mjs';
 
 const router = Router();
 
@@ -36,5 +37,6 @@ router.use('/cart', cartRouter);
 router.use('/profile', profileRouter);
 router.use('/order', orderRouter);
 router.use('/admin', adminRouter);
+router.use('/courier', courierRouter);
 
 export default router;
