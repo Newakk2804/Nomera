@@ -1,53 +1,50 @@
-document.querySelector('.profile-content').addEventListener('submit', async (e) => {
-  if (e.target && e.target.matches('#addressForm')) {
-    e.preventDefault();
+document.querySelector('.profile-content')?.addEventListener('submit', async (e) => {
+  if (!e.target?.matches('#addressForm')) return;
 
-    const input = e.target.querySelector('#newAddress');
-    const address = input.value.trim();
+  e.preventDefault();
 
-    if (!address) {
-      return;
+  const address = e.target.querySelector('#newAddress')?.value.trim();
+  if (!address) return;
+
+  try {
+    const res = await fetch('/profile/addresses', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ address }),
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      location.reload();
+    } else {
+      alert(data.message || 'Ошибка добавления адреса');
     }
-
-    try {
-      const res = await fetch('/profile/addresses', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ address }),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        location.reload();
-      } else {
-        alert(data.message || 'Ошибка добавления адреса');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Ошибка при добавлении адреса');
-    }
+  } catch (err) {
+    console.error(err);
+    alert('Ошибка при добавлении адреса');
   }
 });
 
-document.querySelector('.profile-content').addEventListener('click', async (e) => {
-  if (e.target && e.target.closest('.deleteAddressBtn')) {
-    const btn = e.target.closest('.deleteAddressBtn');
-    const index = btn.dataset.index;
+document.querySelector('.profile-content')?.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.deleteAddressBtn');
+  if (!btn) return;
 
-    try {
-      const res = await fetch(`/profile/addresses/${index}`, { method: 'DELETE' });
+  const index = btn.dataset.index;
+  if (!index) return;
 
-      const data = await res.json();
+  try {
+    const res = await fetch(`/profile/addresses/${index}`, { method: 'DELETE' });
 
-      if (data.success) {
-        location.reload();
-      } else {
-        alert(data.message || 'Ошибка удаления адреса');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Ошибка при удалении адреса');
+    const data = await res.json();
+
+    if (data.success) {
+      location.reload();
+    } else {
+      alert(data.message || 'Ошибка удаления адреса');
     }
+  } catch (err) {
+    console.error(err);
+    alert('Ошибка при удалении адреса');
   }
 });

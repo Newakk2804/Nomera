@@ -1,25 +1,30 @@
 import { showToast } from './toast.js';
 
-document.querySelector('.profile-content').addEventListener('click', async (e) => {
-  if (e.target && e.target.closest('.btn-delete-card')) {
-    const btn = e.target.closest('.btn-delete-card');
-    const cardId = btn.dataset.cardId;
+document.querySelector('.profile-content')?.addEventListener('click', async (e) => {
+  const deleteBtn = e.target.closest('.btn-delete-card');
+  if (!deleteBtn) return;
 
-    try {
-      const res = await fetch(`/profile/payments/delete-card/${cardId}`, { method: 'DELETE' });
+  const cardId = deleteBtn.dataset.cardId;
+  if (!cardId) {
+    console.warn('cardId не найден у кнопки');
+    return;
+  }
 
-      const data = await res.json();
+  try {
+    const res = await fetch(`/profile/payments/delete-card/${cardId}`, {
+      method: 'DELETE',
+    });
 
-      if (data.success) {
-        btn.closest('.card-item').remove();
-        showToast(data.message, 'success');
+    const data = await res.json();
 
-      } else {
-        showToast(data.message || 'Ошибка при удалении карты', 'error');
-      }
-    } catch (err) {
-      console.error(err);
-      showToast('Ошибка при удалении карты');
+    if (res.ok && data.success) {
+      deleteBtn.closest('.card-item')?.remove();
+      showToast(data.message || 'Карта удалена', 'success');
+    } else {
+      showToast(data.message || 'Ошибка при удалении карты', 'error');
     }
+  } catch (err) {
+    console.error('Ошибка при удалении карты:', err);
+    showToast('Сетевая ошибка при удалении карты', 'error');
   }
 });

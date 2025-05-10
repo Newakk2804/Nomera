@@ -4,242 +4,225 @@ document.addEventListener('DOMContentLoaded', () => {
   const links = document.querySelectorAll('.tm-paging-link-admin');
   const contentContainer = document.querySelector('.admin-content');
 
-  links.forEach((link) => {
-    link.addEventListener('click', async (e) => {
+  links.forEach(link =>
+    link.addEventListener('click', async e => {
       e.preventDefault();
+      await loadAdminSection(link, links, contentContainer);
+    })
+  );
 
-      const section = link.dataset.section;
+  document.querySelector('.tm-paging-link-admin.active')?.click();
+});
 
-      links.forEach((l) => l.classList.remove('active'));
-      link.classList.add('active');
+async function loadAdminSection(link, allLinks, container) {
+  const section = link.dataset.section;
 
-      try {
-        const res = await fetch(`/admin/${section}`);
-        const html = await res.text();
-        contentContainer.innerHTML = html;
+  allLinks.forEach(l => l.classList.remove('active'));
+  link.classList.add('active');
 
-        attachOrderButtons();
-      } catch (err) {
-        contentContainer.innerHTML = '<p>Ошибка загрузки содержимого</p>';
-        console.error(err);
+  try {
+    const res = await fetch(`/admin/${section}`);
+    const html = await res.text();
+    container.innerHTML = html;
+    attachOrderButtons();
+  } catch (err) {
+    container.innerHTML = '<p>Ошибка загрузки содержимого</p>';
+    console.error(err);
+  }
+}
+
+function attachOrderButtons() {
+  attachToggleButtons('.view-order-admin', loadOrderDetails);
+  attachToggleButtons('.assign-courier-admin', loadCourierAssignment);
+  attachStatusForms();
+  attachCourierOrderButtons();
+}
+
+function attachToggleButtons(selector, handler) {
+  document.querySelectorAll(selector).forEach(button => {
+    button.addEventListener('click', async () => {
+      const orderId = button.dataset.orderId;
+      const container = document.getElementById(`order-${orderId}`);
+      if (!container) return;
+
+      if (container.style.display === 'block') {
+        container.style.display = 'none';
+        return;
       }
+
+      await handler(orderId, container);
+    });
+  });
+}
+
+async function loadOrderDetails(orderId, container) {
+  try {
+    const res = await fetch(`/admin/list-orders/${orderId}`);
+    const { arrayDishes } = await res.json();
+
+    const itemsHTML = arrayDishes
+      .map(item => `
+        <li>
+          <span class="food-name">${item.food.title || 'Неизвестно'}</span>
+          <span class="food-quantity">x ${item.quantity}</span>
+          <span class="food-price">${item.food.price} BYN</span>
+          <span class="food-total">${(item.food.price * item.quantity).toFixed(2)} BYN</span>
+        </li>`)
+      .join('');
+
+    container.innerHTML = `<ul>${itemsHTML}</ul>`;
+    container.style.display = 'block';
+  } catch (err) {
+    console.error('Ошибка загрузки заказа', err);
+  }
+}
+
+async function loadCourierAssignment(orderId, container) {
+  try {
+    const res = await fetch(`/admin/assign-courier/${orderId}`);
+    const { couriers, currentCourierId } = await res.json();
+
+    container.innerHTML = couriers.map(courier => {
+      const isAssigned = currentCourierId === courier._id;
+      return `
+        <div class="courier-item">
+          <span>${courier.firstName} ${courier.lastName} (${courier.email})</span>
+          <button class="${isAssigned ? 'unassign-button' : 'assign-button'}" 
+                  data-courier-id="${courier._id}" 
+                  data-order-id="${orderId}">
+            ${isAssigned ? 'Удалить' : 'Назначить'}
+          </button>
+        </div>`;
+    }).join('');
+    container.classList.add('assign-courier-list');
+    container.style.display = 'block';
+
+    bindCourierButtons(container);
+  } catch (err) {
+    console.error('Ошибка загрузки курьеров', err);
+  }
+}
+
+function bindCourierButtons(container) {
+  container.querySelectorAll('.assign-button').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      await handleCourierAssignment(btn.dataset.courierId, btn.dataset.orderId);
     });
   });
 
-  document.querySelector('.tm-paging-link-admin.active').click();
+  container.querySelectorAll('.unassign-button').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      await handleCourierUnassignment(btn.dataset.orderId);
+    });
+  });
+}
 
-  function attachOrderButtons() {
-    const viewButtons = document.querySelectorAll('.view-order-admin');
-    viewButtons.forEach((button) => {
-      button.addEventListener('click', async () => {
-        const orderId = button.dataset.orderId;
-        const orderDetailsDiv = document.getElementById(`order-${orderId}`);
-
-        if (!orderDetailsDiv) return;
-
-        if (orderDetailsDiv.style.display === 'block') {
-          orderDetailsDiv.style.display = 'none';
-          return;
-        }
-
-        try {
-          const res = await fetch(`/admin/list-orders/${orderId}`);
-          const order = await res.json();
-
-          const itemsHTML = order.arrayDishes
-            .map(
-              (item) => `    <li>
-      <span class="food-name">${item.food.title || 'Неизвестно'}</span>
-      <span class="food-quantity">x ${item.quantity}</span>
-      <span class="food-price">${item.food.price} BYN</span>
-      <span class="food-total">${(item.food.price * item.quantity).toFixed(2)} BYN</span>
-    </li>`
-            )
-            .join('');
-
-          const html = `
-            <ul>${itemsHTML}</ul>
-          `;
-
-          orderDetailsDiv.innerHTML = html;
-          orderDetailsDiv.style.display = 'block';
-        } catch (err) {
-          console.error('Ошибка загрузки заказа', err);
-        }
-      });
+async function handleCourierAssignment(courierId, orderId) {
+  try {
+    const res = await fetch('/admin/assign-courier', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ courierId, orderId }),
     });
 
-    const assignButtons = document.querySelectorAll('.assign-courier-admin');
-    assignButtons.forEach((button) => {
-      button.addEventListener('click', async () => {
-        const orderId = button.dataset.orderId;
-        const orderDetailsDiv = document.getElementById(`order-${orderId}`);
-
-        if (!orderDetailsDiv) return;
-
-        if (orderDetailsDiv.style.display === 'block') {
-          orderDetailsDiv.style.display = 'none';
-          return;
-        }
-
-        try {
-          const res = await fetch(`/admin/assign-courier/${orderId}`);
-          const data = await res.json();
-
-          const couriersHTML = data.couriers
-            .map((courier) => {
-              const isAssigned = data.currentCourierId === courier._id;
-              return `
-              <div class="courier-item">
-                <span>${courier.firstName} ${courier.lastName} (${courier.email})</span>
-                <button class="${isAssigned ? 'unassign-button' : 'assign-button'}" 
-                        data-courier-id="${courier._id}" 
-                        data-order-id="${orderId}">
-                  ${isAssigned ? 'Удалить' : 'Назначить'}
-                </button>
-              </div>`;
-            })
-            .join('');
-
-          const html = `<div class="assign-courier-list">${couriersHTML}</div>`;
-
-          orderDetailsDiv.innerHTML = html;
-          orderDetailsDiv.style.display = 'block';
-
-          orderDetailsDiv.querySelectorAll('.assign-button').forEach((assignBtn) => {
-            assignBtn.addEventListener('click', async () => {
-              const courierId = assignBtn.dataset.courierId;
-              const orderId = assignBtn.dataset.orderId;
-
-              try {
-                const res = await fetch(`/admin/assign-courier`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ courierId, orderId }),
-                });
-
-                if (res.ok) {
-                  showToast('Курьер успешно назначен', 'success');
-                  document.querySelector('.tm-paging-link-admin.active').click();
-                } else {
-                  showToast('Ошибка назначения курьера', 'error');
-                }
-              } catch (err) {
-                console.error('Ошибка назначения', err);
-              }
-            });
-          });
-
-          orderDetailsDiv.querySelectorAll('.unassign-button').forEach((unassignBtn) => {
-            unassignBtn.addEventListener('click', async () => {
-              const orderId = unassignBtn.dataset.orderId;
-
-              try {
-                const res = await fetch(`/admin/unassign-courier`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({ orderId }),
-                });
-
-                if (res.ok) {
-                  showToast('Курьер удалён', 'success');
-                  document.querySelector('.tm-paging-link-admin.active').click();
-                } else {
-                  showToast('Ошибка удаления курьера', 'error');
-                }
-              } catch (err) {
-                console.error('Ошибка удаления', err);
-              }
-            });
-          });
-        } catch (err) {
-          console.error('Ошибка загрузки курьеров', err);
-        }
-      });
-    });
-
-    document.querySelectorAll('.status-form').forEach((form) => {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const orderId = form.dataset.orderId;
-        const select = form.querySelector('.status-select');
-        const newStatus = select.value;
-
-        try {
-          const res = await fetch('/admin/update-order-status', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ orderId, status: newStatus }),
-          });
-
-          if (res.ok) {
-            showToast('Статус успешно обновлён', 'success');
-            document.querySelector('.tm-paging-link-admin.active').click();
-          } else {
-            showToast('Ошибка при обновлении статуса', 'error');
-          }
-        } catch (err) {
-          console.error('Ошибка:', err);
-          showToast('Ошибка при подключении к серверу', 'error');
-        }
-      });
-    });
-
-    const courierOrderButtons = document.querySelectorAll('.view-courier-orders');
-    courierOrderButtons.forEach((button) => {
-      button.addEventListener('click', async () => {
-        const courierId = button.dataset.courierId;
-        const container = document.getElementById(`courier-orders-${courierId}`);
-
-        if (container.style.display === 'block') {
-          container.style.display = 'none';
-          container.innerHTML = '';
-          return;
-        }
-
-        try {
-          const res = await fetch(`/admin/courier-orders/${courierId}`);
-          const data = await res.json();
-
-          if (data.orders.length === 0) {
-            container.innerHTML = '<p>Нет заказов для этого курьера.</p>';
-          } else {
-            const ordersHtml = data.orders
-              .map(
-                (order) => `
-      <div class="courier-order-item ${
-        order.status === 'Доставлен'
-          ? 'success-order'
-          : order.status === 'Отменен'
-          ? 'canceled-order'
-          : ''
-      }">
-        <p><strong>Заказ №${order._id}</strong></p>
-        <p><span class="order-status">${order.status}</span></p>
-        <p>Сумма: ${order.totalPrice} BYN</p>
-        <p>Клиент: ${order.owner.firstName} ${order.owner.lastName}</p>
-        <p>Адрес: ${order.address}</p>
-        <p>Дата: ${new Date(order.createdAt).toLocaleString()}</p>
-      </div>
-    `
-              )
-              .join('');
-            container.innerHTML = ordersHtml;
-          }
-          container.style.display = 'block';
-        } catch (error) {
-          console.error('Ошибка при загрузке заказов курьера: ', error);
-          container.innerHTML = '<p>Ошибка загрузки заказов.</p>';
-          container.style.display = 'block';
-        }
-      });
-    });
+    if (res.ok) {
+      showToast('Курьер успешно назначен', 'success');
+      document.querySelector('.tm-paging-link-admin.active')?.click();
+    } else {
+      showToast('Ошибка назначения курьера', 'error');
+    }
+  } catch (err) {
+    console.error('Ошибка назначения', err);
   }
-});
+}
+
+async function handleCourierUnassignment(orderId) {
+  try {
+    const res = await fetch('/admin/unassign-courier', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderId }),
+    });
+
+    if (res.ok) {
+      showToast('Курьер удалён', 'success');
+      document.querySelector('.tm-paging-link-admin.active')?.click();
+    } else {
+      showToast('Ошибка удаления курьера', 'error');
+    }
+  } catch (err) {
+    console.error('Ошибка удаления', err);
+  }
+}
+
+function attachStatusForms() {
+  document.querySelectorAll('.status-form').forEach(form => {
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const orderId = form.dataset.orderId;
+      const status = form.querySelector('.status-select').value;
+
+      try {
+        const res = await fetch('/admin/update-order-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ orderId, status }),
+        });
+
+        if (res.ok) {
+          showToast('Статус успешно обновлён', 'success');
+          document.querySelector('.tm-paging-link-admin.active')?.click();
+        } else {
+          showToast('Ошибка при обновлении статуса', 'error');
+        }
+      } catch (err) {
+        console.error('Ошибка обновления статуса', err);
+        showToast('Ошибка при подключении к серверу', 'error');
+      }
+    });
+  });
+}
+
+function attachCourierOrderButtons() {
+  document.querySelectorAll('.view-courier-orders').forEach(button => {
+    button.addEventListener('click', async () => {
+      const courierId = button.dataset.courierId;
+      const container = document.getElementById(`courier-orders-${courierId}`);
+
+      if (container.style.display === 'block') {
+        container.style.display = 'none';
+        container.innerHTML = '';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/admin/courier-orders/${courierId}`);
+        const { orders } = await res.json();
+
+        container.innerHTML = orders.length
+          ? orders.map(order => `
+            <div class="courier-order-item ${
+              order.status === 'Доставлен'
+                ? 'success-order'
+                : order.status === 'Отменен'
+                ? 'canceled-order'
+                : ''
+            }">
+              <p><strong>Заказ №${order._id}</strong></p>
+              <p><span class="order-status">${order.status}</span></p>
+              <p>Сумма: ${order.totalPrice} BYN</p>
+              <p>Клиент: ${order.owner.firstName} ${order.owner.lastName}</p>
+              <p>Адрес: ${order.address}</p>
+              <p>Дата: ${new Date(order.createdAt).toLocaleString()}</p>
+            </div>`).join('')
+          : '<p>Нет заказов для этого курьера.</p>';
+
+        container.style.display = 'block';
+      } catch (err) {
+        console.error('Ошибка загрузки заказов курьера: ', err);
+        container.innerHTML = '<p>Ошибка загрузки заказов.</p>';
+        container.style.display = 'block';
+      }
+    });
+  });
+}

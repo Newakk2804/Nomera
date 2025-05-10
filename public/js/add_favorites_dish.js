@@ -1,61 +1,73 @@
-const modal = document.getElementById('modal');
-const modalMessage = document.getElementById('modal-message');
-const modalLinkButton = document.getElementById('modal-link-block');
-const closeModalBtn = document.querySelector('.modal-close');
+const Modal = (() => {
+  const modal = document.getElementById('modal');
+  const messageEl = document.getElementById('modal-message');
+  const linkBlock = document.getElementById('modal-link-block');
+  const closeBtn = document.querySelector('.modal-close');
 
-function openModal(message, showLink = false) {
-  modalMessage.textContent = message;
-  if (showLink) {
-    modalLinkButton.classList.remove('hidden');
-  } else {
-    modalLinkButton.classList.add('hidden');
+  function open(message, showLink = false) {
+    messageEl.textContent = message;
+    linkBlock.classList.toggle('hidden', !showLink);
+    modal.classList.remove('hidden');
   }
-  modal.classList.remove('hidden');
-}
 
-function closeModal() {
-  modal.classList.add('hidden');
-}
-
-closeModalBtn.addEventListener('click', closeModal);
-window.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    closeModal();
+  function close() {
+    modal.classList.add('hidden');
   }
-});
+
+  function init() {
+    closeBtn?.addEventListener('click', close);
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) close();
+    });
+  }
+
+  init();
+
+  return { open, close };
+})();
 
 document.querySelector('.tm-gallery-page')?.addEventListener('click', async (e) => {
   const btn = e.target.closest('.btn-favorite');
   if (!btn) return;
+
   const foodId = btn.dataset.id;
+  if (!foodId) return;
 
   try {
-    const response = await fetch('/favorite/add', {
+    const res = await fetch('/favorite/add', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({ id: foodId }),
     });
 
-    const data = await response.json();
+    const data = await res.json();
 
-    if (response.status === 401) {
-      openModal('Необходимо авторизоваться для добавления в избранное');
-    } else if (data.success) {
-      const icon = btn.querySelector('i');
-      if (data.added) {
-        icon.classList.remove('fa-regular');
-        icon.classList.add('fa-solid');
-        openModal('Товар добавлен в избранное!', true);
-      } else {
-        icon.classList.remove('fa-solid');
-        icon.classList.add('fa-regular');
-        openModal('Товар удален из избранного');
-      }
-    } else {
-      openModal('Что-то пошло не так');
+    if (res.status === 401) {
+      Modal.open('Необходимо авторизоваться для добавления в избранное');
+      return;
     }
-  } catch (error) {
-    console.error('Ошибка добавления в избранное: ', error);
-    openModal('Ошибка сервера');
+
+    if (!data.success) {
+      Modal.open('Что-то пошло не так');
+      return;
+    }
+
+    updateFavoriteIcon(btn, data.added);
+  } catch (err) {
+    console.error('Ошибка добавления в избранное:', err);
+    Modal.open('Ошибка сервера');
   }
 });
+
+function updateFavoriteIcon(button, isAdded) {
+  const icon = button.querySelector('i');
+  if (!icon) return;
+
+  if (isAdded) {
+    icon.classList.replace('fa-regular', 'fa-solid');
+    Modal.open('Товар добавлен в избранное!', true);
+  } else {
+    icon.classList.replace('fa-solid', 'fa-regular');
+    Modal.open('Товар удален из избранного');
+  }
+}

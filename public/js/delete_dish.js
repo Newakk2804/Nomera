@@ -1,33 +1,44 @@
 import { showToast } from './toast.js';
 
 export function initDeleteModalHandlers(getDishId) {
-  document.getElementById('cancelDeleteBtn').addEventListener('click', () => {
-    document.getElementById('confirmDeleteModal').classList.add('hidden');
+  const cancelBtn = document.getElementById('cancelDeleteBtn');
+  const confirmBtn = document.getElementById('confirmDeleteBtn');
+  const deleteModal = document.getElementById('confirmDeleteModal');
+  const foodModal = document.getElementById('foodModal');
+  const modalOverlay = document.getElementById('modalOverlay');
+
+  if (!cancelBtn || !confirmBtn || !deleteModal) {
+    console.warn('Не найдены элементы модального окна удаления');
+    return;
+  }
+
+  cancelBtn.addEventListener('click', () => {
+    hideElement(deleteModal);
   });
 
-  document.getElementById('confirmDeleteBtn').addEventListener('click', async () => {
-    const dishIdToDelete = getDishId();
-    if (!dishIdToDelete) return;
+  confirmBtn.addEventListener('click', async () => {
+    const dishId = getDishId();
+    if (!dishId) return;
 
     try {
-      const res = await fetch(`/admin/admin-dish/delete/${dishIdToDelete}`, {
-        method: 'DELETE',
-      });
+      const res = await fetch(`/admin/admin-dish/delete/${dishId}`, { method: 'DELETE' });
 
       if (res.ok) {
-        document.querySelector(`[data-food-id="${dishIdToDelete}"]`)?.remove();
+        document.querySelector(`[data-food-id="${dishId}"]`)?.remove();
 
-        document.getElementById('foodModal').classList.add('hidden');
-        document.getElementById('modalOverlay').classList.add('hidden');
-        document.getElementById('confirmDeleteModal').classList.add('hidden');
+        [foodModal, modalOverlay, deleteModal].forEach(hideElement);
 
         showToast('Блюдо удалено');
       } else {
         showToast('Ошибка при удалении', 'error');
       }
-    } catch (error) {
-      console.error(err);
+    } catch (err) {
+      console.error('Ошибка при удалении блюда:', err);
       showToast('Сетевая ошибка', 'error');
     }
   });
+}
+
+function hideElement(element) {
+  if (element) element.classList.add('hidden');
 }
