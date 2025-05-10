@@ -2,7 +2,12 @@ import { Router } from 'express';
 import passport from 'passport';
 import bcrypt from 'bcrypt';
 import User from '../models/Users.mjs';
-import { loginValidation, registerValidation } from '../validators/authValidator.mjs';
+import {
+  loginValidation,
+  registerValidation,
+  checkUserValidation,
+  changePasswordValidation,
+} from '../validators/authValidator.mjs';
 import { validationResult } from 'express-validator';
 
 const router = Router();
@@ -114,6 +119,124 @@ router.get('/logout', (req, res) => {
   req.logout(() => {
     res.redirect('/');
   });
+});
+
+router.get('/check-user', (req, res) => {
+  const locals = {
+    title: 'Проверка пользователя',
+    activePage: '',
+    errors: [],
+    checkUser: '',
+  };
+
+  res.render('check_user', locals);
+});
+
+router.post('/check-user', checkUserValidation, async (req, res) => {
+  const errors = validationResult(req);
+  const { checkUser } = req.body;
+
+  if (!errors.isEmpty()) {
+    const locals = {
+      title: 'Проверка пользователя',
+      activePage: '',
+      errors: errors.array(),
+      checkUser,
+    };
+    return res.status(422).render('check_user', locals);
+  }
+
+  try {
+    const findUser = await User.findOne({ email: checkUser });
+
+    if (!findUser) {
+      const locals = {
+        title: 'Проверка пользователя',
+        activePage: '',
+        errors: [{ msg: 'Пользователь не найден' }],
+        checkUser,
+      };
+      return res.status(422).render('check_user', locals);
+    }
+    req.session.userId = findUser._id;
+    res.redirect('/auth/change-password');
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+router.get('/change-password', (req, res) => {
+  const locals = {
+    title: 'Изменение пароля',
+    activePage: '',
+    errors: [],
+    checkUser: '',
+    formData: {},
+  };
+
+  res.render('change_password', locals);
+});
+
+router.post('/change-password', changePasswordValidation, async (req, res) => {
+  const errors = validationResult(req);
+  const formData = req.body;
+  let userId = '';
+  if (!req.user) {
+    userId = req.session.userId;
+  } else {
+    userId = req.user._id;
+  }
+
+  if (!errors.isEmpty()) {
+    const locals = {
+      title: 'Изменение пароля',
+      activePage: '',
+      errors: errors.array(),
+      formData,
+    };
+    return res.status(422).render('change_password', locals);
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      const locals = {
+        title: 'Изменение пароля',
+        activePage: '',
+        errors: [{ msg: 'Пользователь не найден' }],
+        formData,
+      };
+      return res.status(422).render('change_password', locals);
+    }
+
+    const isMatch = await bcrypt.compare(req.body.oldPassword, user.password);
+    if (!isMatch) {
+      const locals = {
+        title: 'Изменение пароля',
+        activePage: '',
+        errors: [{ msg: 'Старый пароль неверен' }],
+        formData,
+      };
+      return res.status(422).render('change_password', locals);
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const newHashedPassword = await bcrypt.hash(req.body.newPassword, salt);
+    user.password = newHashedPassword;
+    await user.save();
+
+    res.redirect('/profile');
+  } catch (err) {
+    console.error(err);
+    const locals = {
+      title: 'Изменение пароля',
+      activePage: '',
+      errors: [{ msg: 'Произошла ошибка. Попробуйте позже.' }],
+      formData,
+    };
+    res.status(500).render('change_password', locals);
+  }
 });
 
 export default router;

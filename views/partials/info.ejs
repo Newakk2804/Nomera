@@ -12,12 +12,19 @@
 
   <div class="form-group mb-3">
     <label for="phone" class="form-label">Телефон</label>
-    <input type="tel" class="form-control" id="phone" name="phone" placeholder="+375 (__) ___-__-__" value="<%= user.phone %>">
+    <input type="tel" class="form-control" id="phone" name="phone" placeholder="+375 (__) ___-__-__"
+      value="<%= user.phone %>">
+  </div>
+
+  <div class="form-group mb-3">
+    <a href="/auth/change-password" class="link-change-password">Изменить пароль</a>
   </div>
 
   <div class="form-group mb-4">
     <label class="form-label">Дата регистрации</label>
-    <p class="form-control-plaintext"><%= user.createdAt.toLocaleDateString() %></p>
+    <p class="form-control-plaintext">
+      <%= user.createdAt.toLocaleDateString() %>
+    </p>
   </div>
 
   <button type="submit" class="btn-save-info">Сохранить</button>

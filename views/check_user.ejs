@@ -1,0 +1,26 @@
+<main>
+  <div class="block-check-user">
+    <h3 class="text-title">Проверка пользователя</h3>
+    <div class="block-input">
+      <% if (errors && errors.length> 0) { %>
+        <ul class="form-errors">
+          <% errors.forEach(error=> { %>
+            <li class="form-error-item">
+              <%= error.msg %>
+            </li>
+            <% }) %>
+        </ul>
+        <% } %>
+          <form action="/auth/check-user" method="POST" class="block-input-form">
+            <div class="block-check-user">
+              <input type="text" placeholder="имя пользователя" class="form-control" name="checkUser"
+                value="<%= checkUser %>">
+            </div>
+            <div class="block-button-check-user">
+              <a href="/auth/login" class="button-check-user-cancel">Отмена</a>
+              <button type="submit" class="button-check-user">Отправить</button>
+            </div>
+          </form>
+    </div>
+  </div>
+</main>

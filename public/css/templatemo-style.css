@@ -178,6 +178,10 @@ html {
   margin-bottom: 45px;
 }
 
+.tm-p {
+  cursor: pointer;
+}
+
 .tm-mb-p {
   margin-bottom: 20px;
   cursor: pointer;
@@ -975,11 +979,6 @@ address {
   display: none;
 }
 
-.block-login {
-  display: flex;
-  justify-content: center;
-}
-
 .login-form {
   display: flex;
   flex-direction: column;
@@ -1015,6 +1014,16 @@ main {
 }
 
 .tm-mb-p a:hover {
+  color: #1d6e46;
+}
+
+.tm-p a {
+  color: #09c;
+  transition: all 0.1s ease;
+  text-decoration: none;
+}
+
+.tm-p a:hover {
   color: #1d6e46;
 }
 
@@ -2158,7 +2167,7 @@ textarea {
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2171,20 +2180,12 @@ textarea {
   min-width: 300px;
 }
 
-.modal-buttons-delete-dish{
+.modal-buttons-delete-dish {
   margin-top: 10px;
   display: flex;
   gap: 50px;
   justify-content: center;
 }
-
-
-
-
-
-
-
-
 
 .messages-container {
   max-width: 900px;
@@ -2247,8 +2248,6 @@ textarea {
   margin-top: 40px;
 }
 
-
-
 .container-edit {
   max-width: 80%;
   margin: 40px auto;
@@ -2305,7 +2304,6 @@ textarea {
   margin-top: 20px;
 }
 
-
 .btn-edit-dish {
   width: 120px;
   height: 40px;
@@ -2332,6 +2330,160 @@ textarea {
 }
 
 .btn-edit-dish-cancel:hover {
+  background-color: #ffffff;
+  color: #bd3232;
+}
+
+.link-change-password {
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  padding: 8px 10px;
+}
+
+.link-change-password:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.block-login {
+  max-width: 60%;
+  margin: 40px auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.block-check-user {
+  max-width: 60%;
+  margin: 40px auto;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text-title {
+  font-size: 2.2rem;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+.block-input {
+  margin-top: 50px;
+  width: 100%;
+}
+
+.block-button-check-user {
+  margin-top: 50px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.button-check-user {
+  padding: 7px 10px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.button-check-user:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.button-check-user-cancel {
+  padding: 7px 10px;
+  color: #ffffff;
+  background-color: #bd3232;
+  border: 1px solid #bd3232;
+  font-size: 17px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.button-check-user-cancel:hover {
+  background-color: #ffffff;
+  color: #bd3232;
+}
+
+.form-errors {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  list-style: none;
+  background-color: #ffe5e5;
+  border-left: 4px solid #d9534f;
+}
+
+.form-error-item {
+  color: #a94442;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.change-password-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 30px 20px;
+  background: #fff;
+}
+
+.change-password-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+
+.change-password-form .form-group {
+  margin-bottom: 16px;
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.button-change-password {
+  padding: 7px 10px;
+  color: #ffffff;
+  background-color: #2f956d;
+  border: 1px solid #2f956d;
+  font-size: 17px;
+  transition: all 0.3s ease;
+}
+
+.button-change-password:hover {
+  background-color: #ffffff;
+  color: #2f956d;
+}
+
+.button-change-password-cancel {
+  padding: 7px 10px;
+  color: #ffffff;
+  background-color: #bd3232;
+  border: 1px solid #bd3232;
+  font-size: 17px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.button-change-password-cancel:hover {
   background-color: #ffffff;
   color: #bd3232;
 }
