@@ -1,34 +1,9 @@
 import { Router } from 'express';
-import Message from '../models/Messages.mjs';
+import { main, sendMessage } from '../controllers/contactController.mjs';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  const locals = {
-    title: 'Контакты',
-    activePage: 'contact',
-  };
-
-  res.render('contact', locals);
-});
-
-router.post('/send-message', async (req, res) => {
-  const { name, email, message } = req.body;
-
-  if (!name || !email || !message) {
-    return res.status(400).json({ message: 'Все поля обязательны для заполнения' });
-  }
-
-  try {
-    const newMessage = new Message({ name, email, content: message });
-
-    await newMessage.save();
-
-    res.status(200).json({ message: 'Сообщение отправлено!' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Ошибка при отправке сообщения' });
-  }
-});
+router.get('/', main);
+router.post('/send-message', sendMessage);
 
 export default router;
