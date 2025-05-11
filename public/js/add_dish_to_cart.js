@@ -28,14 +28,14 @@ document.addEventListener('click', async (e) => {
         decrease: 'Не удалось уменьшить количество товара',
         increase: 'Не удалось увеличить количество товара',
       };
-      alert(errorMsgs[action] || 'Произошла ошибка');
+      showToast(errorMsgs[action] || 'Произошла ошибка', 'error');
       return;
     }
 
     updateCartUI(action, data.quantity);
   } catch (err) {
     console.error('Ошибка при обновлении корзины:', err);
-    alert('Произошла ошибка при обновлении корзины');
+    showToast('Необходимо авторизоваться', 'error');
   }
 });
 
