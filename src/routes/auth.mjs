@@ -14,6 +14,7 @@ import {
   checkUserDisplay,
   checkUser,
   changePasswordDisplay,
+  changePassword,
 } from '../controllers/authController.mjs';
 
 const router = Router();
@@ -26,6 +27,6 @@ router.get('/logout', logout);
 router.get('/check-user', checkUserDisplay);
 router.post('/check-user', checkUserValidation, checkUser);
 router.get('/change-password', changePasswordDisplay);
-router.post('/change-password', changePasswordValidation);
+router.post('/change-password', changePasswordValidation, changePassword);
 
 export default router;
